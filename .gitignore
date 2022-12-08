@@ -116,7 +116,9 @@ _deps
 # Ignore code-workspaces
 *.code-workspace
 
-log.txt
+logs.txt
+*.png
+*.dot
 
 mlibs/
 cpu/SFML-2.5.1/

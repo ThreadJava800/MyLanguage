@@ -1,83 +1,71 @@
-#ifndef TREE_H
-#define TREE_H
-
-#include "stdio.h"
-#include "stdlib.h"
-#include "malloc.h"
+#include "tree.h"
 
 #if _DEBUG
-void closeLogfile(void);
-
 FILE *logFile = fopen("logs.txt", "w");
 int   onClose = atexit(closeLogfile);
 #endif
 
-enum Type_t {
-    OP            =  0,
-    VAR           =  1,
-    NUM           =  2,
-    NODET_DEFAULT = -1,
-};
-
-typedef Type_t NodeType;
-
-const NodeType defaultValue = NODET_DEFAULT;
-
-typedef void (*PrintFunction_t)(FILE *file, NodeType value);
-
-void printElemT(FILE *file, NodeType val);
-
-struct Node_t {
-    NodeType val = defaultValue;
-
-    Node_t *left  = nullptr;
-    Node_t *right = nullptr;
-    Node_t *prev  = nullptr;
-
-
-    PrintFunction_t printFunc = printElemT;
-};
-
-// DECLARATIONS
-
-Node_t* nodeCtor(NodeType value, Node_t *left, Node_t *right, Node_t *previous, PrintFunction_t printFunc);                                                                                                 \
-
-Node_t* addRightLeaf(Node_t *node, NodeType value);
-
-Node_t* addLeftLeaf(Node_t *node, NodeType value);
-
-void nodeDtor(Node_t *node);
-
-void dumpNode(FILE* file, Node_t *node);
-
-void graphNode(Node_t *node, FILE *tempFile);
-
-void graphDump(Node_t *node);
-
-// REALIZATIONS
-
-void printElemT(FILE *file, NodeType val) {
-    fprintf(file, "%d", val);
+void printElemT(FILE *file, NodeType type, NodeValue value) {
+    switch (type) {
+        case FICTITIOUS:
+            fprintf(file, "FICTITIOUS");
+            break;
+        case NUMBER:
+            fprintf(file, "NUMBER %d", value.num);
+            break;
+        case VARIABLE:
+            fprintf(file, "VARIABLE");
+            break;
+        case IF:
+            fprintf(file, "IF");
+            break;
+        case IF2:
+            fprintf(file, "IF2");
+            break;
+        case WHILE:
+            fprintf(file, "WHILE");
+            break;
+        case OPERATOR:
+            fprintf(file, "OPERATOR %d", value.opt);
+            break;
+        case VAR:
+            fprintf(file, "VAR");
+            break;
+        case DEF:
+            fprintf(file, "DEF");
+            break;
+        case CALL:
+            fprintf(file, "CALL");
+            break;
+        case RETURN:
+            fprintf(file, "RETURN");
+            break;
+        case NODET_DEFAULT:
+        default:
+            fprintf(file, "ERR: DEFAULT");
+            break;
+    }
 }
 
-Node_t* nodeCtor(NodeType val, Node_t *left, Node_t *right, Node_t *prev,  PrintFunction_t printFunc) {
+Node_t* nodeCtor(NodeType type, NodeValue value, Node_t *left, Node_t *right, Node_t *prev,  PrintFunction_t printFunc) {
     Node_t *node = (Node_t*) calloc(1, sizeof(Node_t));
     if (!node) return nullptr;
 
-    node->val    = val;
-    node->left     = left;
-    node->right    = right;
-    node->prev = prev;
+    node->type      = type;
+    node->value     = value;
+    node->left      = left;
+    node->right     = right;
+    node->prev      = prev;
 
     node->printFunc = printFunc;
 
     return node;
 }
 
-Node_t* addRightLeaf(Node_t *node, NodeType val) {
+Node_t* addRightLeaf(Node_t *node, NodeType type, NodeValue value) {
     if (!node) return nullptr;
 
-    Node_t *childNode = nodeCtor(val, nullptr, nullptr, node, node->printFunc);
+    Node_t *childNode = nodeCtor(type, value, nullptr, nullptr, node, node->printFunc);
     if (!childNode) return nullptr;
 
     node->right = childNode;
@@ -85,10 +73,10 @@ Node_t* addRightLeaf(Node_t *node, NodeType val) {
     return childNode;
 }
 
-Node_t* addLeftLeaf(Node_t *node, NodeType val) {
+Node_t* addLeftLeaf(Node_t *node, NodeType type, NodeValue value) {
     if (!node) return nullptr;
 
-    Node_t *childNode = nodeCtor(val, nullptr, nullptr, node, node->printFunc);
+    Node_t *childNode = nodeCtor(type, value, nullptr, nullptr, node, node->printFunc);
     if (!childNode) return nullptr;
 
     node->left = childNode;
@@ -112,7 +100,7 @@ void dumpNode(FILE* file, Node_t *node) {
 
     if (node->left) dumpNode(file, node->left);
 
-    node->printFunc(logFile, node->val);
+    node->printFunc(logFile, node->type, node->value);
 
     if (node->right) dumpNode(file, node->right);
     fprintf(file, ")");
@@ -125,7 +113,7 @@ void graphNode(Node_t *node, FILE *tempFile) {
                 node
             );
 
-    node->printFunc(tempFile, node->val);
+    node->printFunc(tempFile, node->type, node->value);
     
     fprintf(
                 tempFile, 
@@ -157,13 +145,11 @@ void graphDump(Node_t *node) {
     fprintf(tempFile, "}");
     fclose(tempFile);
 
-    system("dot -Tsvg temp.dot > graph.png");
+    system("dot -Tsvg temp.dot > graph.png && xdg-open graph.png");
 }
 
 #if _DEBUG
 void closeLogfile(void) {
     if (logFile) fclose(logFile);
 }
-#endif
-
 #endif

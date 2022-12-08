@@ -24,7 +24,7 @@ Node_t* parseFile(FILE* file) {
         curNode = parseOper(file, curNode);
     }
 
-    printf("%p", curNode);
+    curNode = headStart(curNode);
     graphDump(curNode);
 
     return curNode;
@@ -61,16 +61,28 @@ Node_t* parseNum(FILE* file, Node_t* prev) {
         symb = fgetc(file);
         isNeg = true;
     }
-    printf("%d %c\n", symb, symb);
     while ('0' <= symb && symb <= '9') {
         isValue = true;
         value = value * 10 + (symb - '0');
         symb = fgetc(file);
     }
     if (isNeg) value *= -1;
-    ungetc(symb, file);
+    if (isNeg && !isValue) {
+        ungetc(symb, file);
+        ungetc('-', file);
+    }
+    else ungetc(symb, file);
 
     if (isValue) return nodeCtor(NUMBER, {.num = value}, nullptr, nullptr, prev);
 
-    return nullptr;
+    return prev;
+}
+
+Node_t* headStart(Node_t* end) {
+    ON_ERROR(!end, "Node is null", nullptr);
+
+    if (!end->prev) return end;
+
+    end->prev->right = end;
+    return headStart(end->prev);
 }

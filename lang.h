@@ -33,4 +33,6 @@ Node_t* parseOper(FILE* file, Node_t* prev);
 
 Node_t* parseNum(FILE* file, Node_t* prev);
 
+Node_t* headStart(Node_t* end);
+
 #endif

@@ -1,4 +1,4 @@
-#include "lang.h"
+#include "../lang.h"
 
 Node_t* readLangFile(const char* fileName) {
     ON_ERROR(!fileName, "File name was null", nullptr);

@@ -1,1 +1,1 @@
-test == test + ^ 234 / iif
+a = 2 + 4

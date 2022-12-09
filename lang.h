@@ -37,6 +37,8 @@ const int MAX_OPER_LENGTH = 4;
 
 // FRONT-END
 
+// SYNTAX ANALYZER
+
 Node_t* readLangFile(const char* fileName);
 
 Node_t* parseFile(FILE* file);
@@ -54,5 +56,17 @@ Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars);
 int getWord(FILE* file, char* buffer);
 
 Node_t* headStart(Node_t* end);
+
+// RECURSIVE DESCENT
+
+Node_t* getG(Node_t* node);
+
+Node_t* getE(Node_t* node);
+
+Node_t* getT(Node_t* node);
+
+Node_t* getCP(Node_t* node);
+
+Node_t* getAS(Node_t* node);
 
 #endif

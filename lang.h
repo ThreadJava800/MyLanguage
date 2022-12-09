@@ -11,6 +11,7 @@
 #include "syntax.h"
 
 const int MAX_WORD_LENGTH = 4096;
+const int MAX_OPER_LENGTH = 4;
 
 #define ON_ERROR(expr, errStr, retVal) {                 \
     if (expr) {                                           \
@@ -41,6 +42,10 @@ Node_t* readLangFile(const char* fileName);
 Node_t* parseFile(FILE* file);
 
 Node_t* parseOper(FILE* file, Node_t* prev);
+
+int getOper(FILE* file, char* buffer);
+
+bool isOperInList(int symb);
 
 Node_t* parseNum(FILE* file, Node_t* prev);
 

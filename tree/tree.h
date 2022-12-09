@@ -21,10 +21,24 @@ enum Type_t {
 };
 
 enum OpType_t {
-    MUL_OP         =  0,
     ADD_OP         =  1,
-    DIV_OP         =  2,
-    SUB_OP         =  3,
+    SUB_OP         =  2,
+    MUL_OP         =  3,
+    DIV_OP         =  4,
+    POW_OP         =  5,
+    OUT_OP         =  6,
+    IN_OP          =  7,
+    EQU_OP         =  8,
+    BIGGER_OP      =  9,
+    LESS_OP        =  10,
+    BIGGER_EQ_OP   =  11,
+    LESS_EQ_OP     =  12,
+    NOT_EQ_OP      =  13,
+    NOT_OP         =  14,
+    OR_OP          =  15,
+    AND_OP         =  16,
+    ASSIGN_OP      =  17,
+    
     OPT_DEFAULT    = -1,
 };
 

@@ -21,13 +21,14 @@ Node_t* parseFile(FILE* file) {
         ungetc(symb, file);
         SKIP_SPACES();
 
+        curNode = parseOper(file, curNode);
+
         List_t list = {};
         _listCtor(&list, 1, 0);
         curNode = parseWord(file, curNode, &list);
         SKIP_SPACES();
 
         curNode = parseNum(file, curNode);
-        curNode = parseOper(file, curNode);
     }
 
     curNode = headStart(curNode);
@@ -39,21 +40,51 @@ Node_t* parseFile(FILE* file) {
 Node_t* parseOper(FILE* file, Node_t* prev) {
     ON_ERROR(!file, "File is null", nullptr);
 
-    int symb = fgetc(file);
-    switch (symb) {
-        case '+':
-            return nodeCtor(OPERATOR, {.opt = ADD_OP}, nullptr, nullptr, prev);
-        case '-':
-            return nodeCtor(OPERATOR, {.opt = SUB_OP}, nullptr, nullptr, prev);
-        case '*':
-            return nodeCtor(OPERATOR, {.opt = MUL_OP}, nullptr, nullptr, prev);
-        case '/':
-            return nodeCtor(OPERATOR, {.opt = DIV_OP}, nullptr, nullptr, prev);
-        default:
-            ungetc(symb, file);
-            break;
+    char oper[MAX_OPER_LENGTH] = "";
+    int symbCount = getOper(file, oper);
+    if (symbCount) {
+        if (!strcmp(oper, "+"))  return nodeCtor(OPERATOR, {.opt = ADD_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "-"))  return nodeCtor(OPERATOR, {.opt = SUB_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "*"))  return nodeCtor(OPERATOR, {.opt = MUL_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "/"))  return nodeCtor(OPERATOR, {.opt = DIV_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "^"))  return nodeCtor(OPERATOR, {.opt = POW_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "="))  return nodeCtor(OPERATOR, {.opt = ASSIGN_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "==")) return nodeCtor(OPERATOR, {.opt = EQU_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, ">"))  return nodeCtor(OPERATOR, {.opt = BIGGER_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "<"))  return nodeCtor(OPERATOR, {.opt = LESS_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, ">=")) return nodeCtor(OPERATOR, {.opt = BIGGER_EQ_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "<=")) return nodeCtor(OPERATOR, {.opt = LESS_EQ_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "!=")) return nodeCtor(OPERATOR, {.opt = NOT_EQ_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "!"))  return nodeCtor(OPERATOR, {.opt = NOT_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "||")) return nodeCtor(OPERATOR, {.opt = OR_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "&&")) return nodeCtor(OPERATOR, {.opt = AND_OP}, nullptr, nullptr, prev);
     }
+
     return prev;
+}
+
+int getOper(FILE* file, char* buffer) {
+    ON_ERROR(!file, "File is null", 0);
+
+    int symb = fgetc(file);
+    int symbCount = 0;
+    while (isOperInList(symb)) {
+        *buffer = (char) symb;
+        symbCount++;
+        buffer++;
+
+        symb = fgetc(file);
+    }
+    ungetc(symb, file);
+
+    return symbCount;
+}
+
+bool isOperInList(int symb) {
+    for (size_t i = 0; i < sizeof(baseOpers) / sizeof(char); i++) {
+        if (baseOpers[i] == symb) return true;
+    }
+    return false;
 }
 
 Node_t* parseNum(FILE* file, Node_t* prev) {

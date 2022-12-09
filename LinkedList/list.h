@@ -15,7 +15,7 @@
 typedef char* Elem_t;
 
 const Elem_t POISON = nullptr;
-const long NUM_POISON = 0xBEEF;
+const long NUM_POISON = 0;
 
 const int RESIZE_COEFFICIENT = 2;
 

@@ -22,7 +22,7 @@ Node_t* parseFile(FILE* file) {
         SKIP_SPACES();
 
         List_t list = {};
-        _listCtor(&list, 0, 0);
+        _listCtor(&list, 1, 0);
         curNode = parseWord(file, curNode, &list);
         SKIP_SPACES();
 
@@ -90,8 +90,17 @@ Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars) {
 
     char command[MAX_WORD_LENGTH] = "";
     int symbCount = getWord(file, command);
-    if (symbCount) 
-        return nodeCtor(VARIABLE, {.var = strdup(command)}, nullptr, nullptr, prev);
+    if (symbCount) {
+        if (!strcmp(command, ifCom)) {
+            return nodeCtor(IF, {}, nullptr, nullptr, prev);
+        } else if(!strcmp(command, whileCom)) {
+            return nodeCtor(WHILE, {}, nullptr, nullptr, prev);
+        } else {
+            char* varName = strdup(command);
+            listPushBack(vars, varName);
+            return nodeCtor(VARIABLE, {.var = varName}, nullptr, nullptr, prev);
+        }
+    }
 
     return prev;
 }
@@ -112,7 +121,7 @@ int getWord(FILE* file, char* buffer) {
 
     int symbCount = 0;
 
-    while (!isspace(symb)) {
+    while (!isspace(symb) && symb != EOF) {
         SYNTAX_ERROR(!(isalnum(symb) || symb == '_'), "Incorrect var name! %c", symb);
 
         *buffer = (char) symb;

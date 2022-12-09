@@ -8,6 +8,7 @@
 
 #include "tree/tree.h"
 #include "LinkedList/list.h"
+#include "syntax.h"
 
 const int MAX_WORD_LENGTH = 4096;
 

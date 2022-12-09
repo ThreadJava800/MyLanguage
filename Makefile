@@ -11,7 +11,7 @@ CFLAGS  = -D _DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextra -Weffc++ -Waggressive-lo
 -fno-omit-frame-pointer -pie -fPIE -Werror=vla \
 # -fsanitize=address,alignment,bool,bounds,enum,float-cast-overflow,float-divide-by-zero,integer-divide-by-zero,leak,nonnull-attribute,null,object-size,return,returns-nonnull-attribute,shift,signed-integer-overflow,undefined,unreachable,vla-bound,vptr
 
-SOURCES=tree/tree.h tree/tree.cpp lang.h front.cpp main.cpp
+SOURCES=LinkedList/list.h LinkedList/list.cpp tree/tree.h tree/tree.cpp lang.h front.cpp main.cpp
 
 EXECUTABLE=lang
  

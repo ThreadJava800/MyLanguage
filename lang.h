@@ -7,6 +7,9 @@
 #include <ctype.h>
 
 #include "tree/tree.h"
+#include "LinkedList/list.h"
+
+const int MAX_WORD_LENGTH = 4096;
 
 #define ON_ERROR(expr, errStr, retVal) {                 \
     if (expr) {                                           \
@@ -14,6 +17,13 @@
         return retVal;                                      \
     }                                                        \
 }                                                             \
+
+#define SYNTAX_ERROR(expr, fmt, ...) {                                   \
+    if (expr) {                                                           \
+        fprintf(stderr, "SYNTAX ERROR: " fmt "\n", ##__VA_ARGS__);         \
+        abort();                                                            \
+    }                                                                        \
+}                                                                             \
 
 #define SKIP_SPACES() {         \
     int c = fgetc(file);         \
@@ -32,6 +42,10 @@ Node_t* parseFile(FILE* file);
 Node_t* parseOper(FILE* file, Node_t* prev);
 
 Node_t* parseNum(FILE* file, Node_t* prev);
+
+Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars);
+
+int getWord(FILE* file, char* buffer);
 
 Node_t* headStart(Node_t* end);
 

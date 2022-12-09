@@ -14,7 +14,7 @@ void printElemT(FILE *file, NodeType type, NodeValue value) {
             fprintf(file, "NUMBER %d", value.num);
             break;
         case VARIABLE:
-            fprintf(file, "VARIABLE");
+            fprintf(file, "VARIABLE %s", value.var);
             break;
         case IF:
             fprintf(file, "IF");

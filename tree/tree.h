@@ -36,7 +36,7 @@ union NodeValue
 {
     int         num;
     OpType_t    opt;
-    char        var;
+    char*       var;
 };
 
 typedef void (*PrintFunction_t)(FILE *file, NodeType type, NodeValue value);

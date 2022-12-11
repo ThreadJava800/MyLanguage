@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
+#include <string.h>
 
 enum Type_t {
     NODET_DEFAULT = -1,
@@ -69,7 +70,23 @@ struct Node_t {
     PrintFunction_t printFunc = printElemT;
 };
 
+#define IS_OP(node) (node)->type == OPERATOR
+
+#define L(node) (node)->left
+#define LL(node) (node)->left->left
+#define LR(node) (node)->left->right
+
+#define R(node) (node)->right
+
+#define PREV(node) (node)->prev
+
+#define IS_NUM_VAR(node) (node)->type == NUMBER || (node)->type == VARIABLE
+
 // DECLARATIONS
+
+Node_t* nodeCopy(Node_t* nodeToCopy);
+
+bool whatOper(Node_t* node, OpType_t oper);
 
 Node_t* nodeCtor(NodeType type, NodeValue value, Node_t *left, Node_t *right, Node_t *previous, PrintFunction_t printFunc = printElemT);
 

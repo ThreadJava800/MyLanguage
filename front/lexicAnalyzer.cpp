@@ -17,22 +17,23 @@ Node_t* parseFile(FILE* file) {
 
     Node_t* curNode = nullptr;
     int symb = EOF;
+
+    List_t vars = {};
+    _listCtor(&vars, 1, 0);
     while ((symb = fgetc(file)) != EOF) {
         ungetc(symb, file);
         SKIP_SPACES();
 
         curNode = parseOper(file, curNode);
 
-        List_t list = {};
-        _listCtor(&list, 1, 0);
-        curNode = parseWord(file, curNode, &list);
+        curNode = parseWord(file, curNode, &vars);
         SKIP_SPACES();
 
         curNode = parseNum(file, curNode);
     }
 
     curNode = headStart(curNode);
-    graphDump(curNode);
+    // graphDump(curNode);
 
     return curNode;
 }

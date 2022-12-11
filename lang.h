@@ -59,14 +59,20 @@ Node_t* headStart(Node_t* end);
 
 // RECURSIVE DESCENT
 
-Node_t* getG(Node_t* node);
+Node_t* setOper(Node_t* val1, Node_t* val2, Node_t* oper);
 
-Node_t* getE(Node_t* node);
+void addPrevs(Node_t* start);
 
-Node_t* getT(Node_t* node);
+Node_t* makeConnections(Node_t* info);
 
-Node_t* getCP(Node_t* node);
+Node_t* getE(Node_t** info);
 
-Node_t* getAS(Node_t* node);
+Node_t* getT(Node_t** info);
+
+Node_t* getCP(Node_t** info);
+
+Node_t* getAS(Node_t** info);
+
+Node_t* getX(Node_t** info);
 
 #endif

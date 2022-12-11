@@ -47,6 +47,22 @@ void printElemT(FILE *file, NodeType type, NodeValue value) {
     }
 }
 
+bool whatOper(Node_t* node, OpType_t oper) {
+    if (IS_OP(node)) {
+        if ((node)->value.opt == oper) return true;
+    }
+    return false;
+}
+
+Node_t* nodeCopy(Node_t* nodeToCopy) {
+    if (!nodeToCopy) return nullptr;
+
+    Node_t* node = (Node_t*) calloc(sizeof(Node_t), 1);
+    memcpy(node, nodeToCopy, sizeof(Node_t));
+
+    return node;
+}
+
 Node_t* nodeCtor(NodeType type, NodeValue value, Node_t *left, Node_t *right, Node_t *prev,  PrintFunction_t printFunc) {
     Node_t *node = (Node_t*) calloc(1, sizeof(Node_t));
     if (!node) return nullptr;

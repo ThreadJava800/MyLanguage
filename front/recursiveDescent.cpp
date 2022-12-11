@@ -42,19 +42,31 @@ Node_t* makeConnections(Node_t* info) {
 Node_t* getE(Node_t** info) {
     ON_ERROR(!info, "Node is null", nullptr);
 
-    if (whatOper(*info, ASSIGN_OP)) {
-        return setOper(getT(&PREV(*info)), getT(&R(*info)), *info);
-    }
-    return getT(info);
+    Node_t* val1 = getT(info);
+    if (!(whatOper(*info, ASSIGN_OP))) return val1;
+
+    Node_t* operNode = *info;
+    *info = (*info)->right;
+    Node_t* val2 = getT(info);
+
+    return setOper(val1, val2, operNode);
 }
 
 Node_t* getT(Node_t** info) {
     ON_ERROR(!info, "Node is null", nullptr);
 
-    if (whatOper(*info, MUL_OP) || whatOper(*info, DIV_OP)) {
-        return setOper(getX(&PREV(*info)), getX(&R(*info)), *info);
+    Node_t* val1 = getX(info);
+    if (!(whatOper(*info, MUL_OP) || whatOper(*info, DIV_OP))) return val1;
+
+    while (whatOper(*info, MUL_OP) || whatOper(*info, DIV_OP)) {
+        Node_t* operNode = *info;
+        *info = (*info)->right;
+        Node_t* val2 = getX(info);
+
+        val1 = setOper(val1, val2, operNode);
     }
-    return getX(info);
+
+    return val1;
 }
 
 Node_t* getCP(Node_t** info) {

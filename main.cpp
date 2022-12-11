@@ -5,6 +5,7 @@ int main(int argc, char *argv[]) {
         Node_t* node = readLangFile(argv[1]);
         Node_t* con = makeConnections(node);
         graphDump(con);
+        // TODO: remove unneccessary fict nodes
     } else {
         fprintf(stderr, "Incorrect arguments provided\n");
     }

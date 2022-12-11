@@ -48,6 +48,8 @@ void printElemT(FILE *file, NodeType type, NodeValue value) {
 }
 
 bool whatOper(Node_t* node, OpType_t oper) {
+    if (!node) return false;
+
     if (IS_OP(node)) {
         if ((node)->value.opt == oper) return true;
     }

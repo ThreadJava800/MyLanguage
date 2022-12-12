@@ -63,6 +63,8 @@ Node_t* setOper(Node_t* val1, Node_t* val2, Node_t* oper);
 
 void addPrevs(Node_t* start);
 
+Node_t* head(Node_t* cur);
+
 Node_t* makeConnections(Node_t* info);
 
 Node_t* getE(Node_t** info);

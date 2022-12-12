@@ -59,6 +59,7 @@ Node_t* parseOper(FILE* file, Node_t* prev) {
         if (!strcmp(oper, "!"))  return nodeCtor(OPERATOR, {.opt = NOT_OP}, nullptr, nullptr, prev);
         if (!strcmp(oper, "||")) return nodeCtor(OPERATOR, {.opt = OR_OP}, nullptr, nullptr, prev);
         if (!strcmp(oper, "&&")) return nodeCtor(OPERATOR, {.opt = AND_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, ";")) return nodeCtor(OPERATOR, {.opt = END_LINE_OP}, nullptr, nullptr, prev);
     }
 
     return prev;

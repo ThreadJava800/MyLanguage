@@ -41,6 +41,9 @@ enum OpType_t {
     ASSIGN_OP      =  17,
     
     OPT_DEFAULT    = -1,
+
+    // NOT STANDART
+    END_LINE_OP    = -2,
 };
 
 typedef Type_t NodeType;

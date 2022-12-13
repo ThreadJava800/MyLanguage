@@ -67,6 +67,8 @@ Node_t* head(Node_t* cur);
 
 Node_t* makeConnections(Node_t* info);
 
+Node_t* getG(Node_t** info);
+
 Node_t* getE(Node_t** info);
 
 Node_t* getT(Node_t** info);

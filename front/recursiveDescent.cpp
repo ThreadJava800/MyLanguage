@@ -31,17 +31,23 @@ Node_t* head(Node_t* cur) {
 Node_t* makeConnections(Node_t* info) {
     ON_ERROR(!info, "Node is null", nullptr);
 
+    return getG(&info);
+}
+
+Node_t* getG(Node_t** info) {
+    ON_ERROR(!info, "Node is null", nullptr);
+
     Node_t* headNode = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr);
-    while (info) {
-        L(headNode) = getE(&info);
+    while (*info) {
+        L(headNode) = getE(info);
         addPrevs(L(headNode));
         PREV(L(headNode)) = headNode;
 
         R(headNode) = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, headNode);
         headNode = R(headNode);
 
-        SYNTAX_ERROR(!whatOper(info, END_LINE_OP), "missing ;!");
-        info = R(info);
+        SYNTAX_ERROR(!whatOper(*info, END_LINE_OP), "missing ;!");
+        *info = R(*info);
     }
 
     return head(headNode);
@@ -126,6 +132,7 @@ Node_t* getX(Node_t** info) {
     }
     if (IS_IF(*info)) return getIF(info);
 
+    printf("%d\n", (*info)->value.opt);
     return nullptr;
 }
 
@@ -143,12 +150,23 @@ Node_t* getIF(Node_t** info) {
     SYNTAX_ERROR(!(IS_O_FIG_BR(*info)), "Missing '{' bracket!");
     *info = R(*info);
 
-    Node_t* toDoNode = getE(info);
-    printf("%d\n", (*info)->value.opt);
+    Node_t* toDoNode = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr);
+    while (!(IS_C_FIG_BR(*info))) {
+        printf("in");
+        L(toDoNode) = getE(info);
+        addPrevs(L(toDoNode));
+        PREV(L(toDoNode)) = toDoNode;
+
+        R(toDoNode) = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, toDoNode);
+        toDoNode = R(toDoNode);
+
+        SYNTAX_ERROR(!whatOper(*info, END_LINE_OP), "missing ;!");
+        *info = R(*info);
+    }
     SYNTAX_ERROR(!(IS_C_FIG_BR(*info)), "Missing '}' bracket!");
     *info = R(*info);
 
-    Node_t* if2 = nodeCtor(IF2, {}, toDoNode, nullptr, nullptr);
+    Node_t* if2 = nodeCtor(IF2, {}, head(toDoNode), nullptr, nullptr);
 
     return nodeCtor(IF, {}, caseNode, if2, nullptr);
 }

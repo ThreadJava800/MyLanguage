@@ -82,10 +82,28 @@ Node_t* getT(Node_t** info) {
 Node_t* getM(Node_t** info) {
     ON_ERROR(!info, "Node is null", nullptr);
 
-    Node_t* val1 = getX(info);
+    Node_t* val1 = getCP(info);
     if (!(whatOper(*info, MUL_OP) || whatOper(*info, DIV_OP))) return val1;
 
     while (whatOper(*info, MUL_OP) || whatOper(*info, DIV_OP)) {
+        Node_t* operNode = nodeCopy(*info);
+        R(operNode) = PREV(operNode) = nullptr;
+        *info = R(*info);
+        Node_t* val2 = getCP(info);
+
+        val1 = setOper(val1, val2, operNode);
+    }
+
+    return val1;
+}
+
+Node_t* getCP(Node_t** info) {
+    ON_ERROR(!info, "Node is null", nullptr);
+
+    Node_t* val1 = getX(info);
+    if (!(IS_CMP_OPS(*info))) return val1;
+
+    while (IS_CMP_OPS(*info)) {
         Node_t* operNode = nodeCopy(*info);
         R(operNode) = PREV(operNode) = nullptr;
         *info = R(*info);

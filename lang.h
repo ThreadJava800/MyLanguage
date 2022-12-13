@@ -73,6 +73,8 @@ Node_t* getT(Node_t** info);
 
 Node_t* getM(Node_t** info);
 
+Node_t* getCP(Node_t** info);
+
 Node_t* getX(Node_t** info);
 
 #endif

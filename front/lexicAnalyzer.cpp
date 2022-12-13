@@ -59,7 +59,11 @@ Node_t* parseOper(FILE* file, Node_t* prev) {
         if (!strcmp(oper, "!"))  return nodeCtor(OPERATOR, {.opt = NOT_OP}, nullptr, nullptr, prev);
         if (!strcmp(oper, "||")) return nodeCtor(OPERATOR, {.opt = OR_OP}, nullptr, nullptr, prev);
         if (!strcmp(oper, "&&")) return nodeCtor(OPERATOR, {.opt = AND_OP}, nullptr, nullptr, prev);
-        if (!strcmp(oper, ";")) return nodeCtor(OPERATOR, {.opt = END_LINE_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "("))  return nodeCtor(OPERATOR, {.opt = O_CIR_BR_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, ")"))  return nodeCtor(OPERATOR, {.opt = C_CIR_BR_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "{"))  return nodeCtor(OPERATOR, {.opt = O_FIG_BR_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "}"))  return nodeCtor(OPERATOR, {.opt = C_FIG_BR_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, ";"))  return nodeCtor(OPERATOR, {.opt = END_LINE_OP}, nullptr, nullptr, prev);
     }
 
     return prev;
@@ -124,15 +128,16 @@ Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars) {
     char command[MAX_WORD_LENGTH] = "";
     int symbCount = getWord(file, command);
     if (symbCount) {
-        if (!strcmp(command, ifCom)) {
-            return nodeCtor(IF, {}, nullptr, nullptr, prev);
-        } else if(!strcmp(command, whileCom)) {
-            return nodeCtor(WHILE, {}, nullptr, nullptr, prev);
-        } else {
-            char* varName = strdup(command);
-            listPushBack(vars, varName);
-            return nodeCtor(VARIABLE, {.var = varName}, nullptr, nullptr, prev);
-        }
+        if(!strcmp(command, ifCom))    return nodeCtor(IF, {}, nullptr, nullptr, prev);
+        if(!strcmp(command, whileCom)) return nodeCtor(WHILE, {}, nullptr, nullptr, prev);
+        if(!strcmp(command, elseCom))  return nodeCtor(ELSE, {}, nullptr, nullptr, prev);
+        if(!strcmp(command, assCom))   return nodeCtor(OPERATOR, {.opt = ASSIGN_OP}, nullptr, nullptr, prev);
+        if(!strcmp(command, outCom))   return nodeCtor(OPERATOR, {.opt = OUT_OP}, nullptr, nullptr, prev);
+        if(!strcmp(command, equCom))   return nodeCtor(OPERATOR, {.opt = EQU_OP}, nullptr, nullptr, prev);
+
+        char* varName = strdup(command);
+        listPushBack(vars, varName);
+        return nodeCtor(VARIABLE, {.var = varName}, nullptr, nullptr, prev);
     }
 
     return prev;

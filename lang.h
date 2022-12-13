@@ -71,9 +71,7 @@ Node_t* getE(Node_t** info);
 
 Node_t* getT(Node_t** info);
 
-Node_t* getCP(Node_t** info);
-
-Node_t* getAS(Node_t** info);
+Node_t* getM(Node_t** info);
 
 Node_t* getX(Node_t** info);
 

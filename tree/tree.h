@@ -18,7 +18,10 @@ enum Type_t {
     VAR           =  7,
     DEF           =  8,
     CALL          =  9,
-    RETURN        =  10,         
+    RETURN        =  10,  
+
+    // NOT STANDART
+    ELSE          = -2,       
 };
 
 enum OpType_t {
@@ -44,6 +47,10 @@ enum OpType_t {
 
     // NOT STANDART
     END_LINE_OP    = -2,
+    O_CIR_BR_OP    = -3,
+    C_CIR_BR_OP    = -4,
+    O_FIG_BR_OP    = -5,
+    C_FIG_BR_OP    = -6,
 };
 
 typedef Type_t NodeType;

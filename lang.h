@@ -81,4 +81,8 @@ Node_t* getX(Node_t** info);
 
 Node_t* getIF(Node_t** info);
 
+Node_t* getElse(Node_t** info);
+
+Node_t* getDoNode(Node_t** info);
+
 #endif

@@ -147,6 +147,27 @@ Node_t* getIF(Node_t** info) {
     SYNTAX_ERROR(!(IS_C_CR_BR(*info)), "Missing ')' bracket!");
     *info = R(*info);
 
+    Node_t* trueNode = getDoNode(info);
+    Node_t* falseNode = getElse(info);
+    Node_t* if2 = nodeCtor(IF2, {}, trueNode, falseNode, nullptr);
+    addPrevs(if2);
+
+    return nodeCtor(IF, {}, caseNode, if2, nullptr);
+}
+
+Node_t* getElse(Node_t** info) {
+    ON_ERROR(!info, "Node is null", nullptr);
+
+    printf("%d\n", (*info)->value.opt);
+    if (!(IS_ELSE(*info))) return nullptr;
+
+    *info = R(*info);
+    return getDoNode(info);
+}
+
+Node_t* getDoNode(Node_t** info) {
+    ON_ERROR(!info, "Node is null", nullptr);
+
     SYNTAX_ERROR(!(IS_O_FIG_BR(*info)), "Missing '{' bracket!");
     *info = R(*info);
 
@@ -166,7 +187,5 @@ Node_t* getIF(Node_t** info) {
     SYNTAX_ERROR(!(IS_C_FIG_BR(*info)), "Missing '}' bracket!");
     *info = R(*info);
 
-    Node_t* if2 = nodeCtor(IF2, {}, head(toDoNode), nullptr, nullptr);
-
-    return nodeCtor(IF, {}, caseNode, if2, nullptr);
+    return head(toDoNode);
 }

@@ -22,6 +22,9 @@ void printElemT(FILE *file, NodeType type, NodeValue value) {
         case IF2:
             fprintf(file, "IF2");
             break;
+        case ELSE:
+            fprintf(file, "ELSE");
+            break;
         case WHILE:
             fprintf(file, "WHILE");
             break;

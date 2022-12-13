@@ -44,7 +44,7 @@ Node_t* makeConnections(Node_t* info) {
         info = R(info);
     }
 
-    return head(headNode);;
+    return head(headNode);
 }
 
 Node_t* getE(Node_t** info) {
@@ -124,6 +124,31 @@ Node_t* getX(Node_t** info) {
         R(retData) = PREV(retData) = nullptr;
         return retData;
     }
+    if (IS_IF(*info)) return getIF(info);
 
-    ON_ERROR(true, "crytical compiler error", nullptr);
+    return nullptr;
+}
+
+Node_t* getIF(Node_t** info) {
+    ON_ERROR(!info, "Node is null", nullptr);
+
+    *info = R(*info);
+    SYNTAX_ERROR(!(IS_O_CR_BR(*info)), "Missing '(' bracket!");
+    *info = R(*info);
+
+    Node_t* caseNode = getE(info);
+    SYNTAX_ERROR(!(IS_C_CR_BR(*info)), "Missing ')' bracket!");
+    *info = R(*info);
+
+    SYNTAX_ERROR(!(IS_O_FIG_BR(*info)), "Missing '{' bracket!");
+    *info = R(*info);
+
+    Node_t* toDoNode = getE(info);
+    printf("%d\n", (*info)->value.opt);
+    SYNTAX_ERROR(!(IS_C_FIG_BR(*info)), "Missing '}' bracket!");
+    *info = R(*info);
+
+    Node_t* if2 = nodeCtor(IF2, {}, toDoNode, nullptr, nullptr);
+
+    return nodeCtor(IF, {}, caseNode, if2, nullptr);
 }

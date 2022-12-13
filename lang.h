@@ -77,4 +77,6 @@ Node_t* getCP(Node_t** info);
 
 Node_t* getX(Node_t** info);
 
+Node_t* getIF(Node_t** info);
+
 #endif

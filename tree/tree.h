@@ -91,6 +91,11 @@ struct Node_t {
 #define PREV(node) (node)->prev
 
 #define IS_NUM_VAR(node) (node)->type == NUMBER || (node)->type == VARIABLE
+#define IS_IF(node) (node)->type == IF
+#define IS_O_CR_BR(node) ((node)->type == OPERATOR) && ((node)->value.opt == O_CIR_BR_OP)
+#define IS_C_CR_BR(node) ((node)->type == OPERATOR) && ((node)->value.opt == C_CIR_BR_OP)
+#define IS_O_FIG_BR(node) ((node)->type == OPERATOR) && ((node)->value.opt == O_FIG_BR_OP)
+#define IS_C_FIG_BR(node) ((node)->type == OPERATOR) && ((node)->value.opt == C_FIG_BR_OP)
 #define IS_CMP_OPS(node) whatOper((node), EQU_OP) ||       whatOper((node), BIGGER_OP) ||  whatOper((node), LESS_OP)  \
                       || whatOper((node), BIGGER_EQ_OP) || whatOper((node), LESS_EQ_OP) || whatOper((node), NOT_EQ_OP) \
                       || whatOper((node), EQU_OP)

@@ -19,7 +19,8 @@ void printHeader(FILE* file, List_t* vars) {
 
     fprintf(file, "%ld\n", vars->size);
     for (int i = 0; i < vars->size; i++) {
-        fprintf(file, "%s\n", vars->values[i].value);
+        ListElement_t* value = logicToPhysics(vars, i);
+        fprintf(file, "%s\n", value->value);
     }
 }
 
@@ -38,10 +39,13 @@ void printNode(FILE* file, Node_t* node, int tabCount) {
         if (!(L(node))) printNode(file, R(node), ++tabCount);
         else printNode(file, R(node), tabCount);
     }
+
     if (R(node) || L(node)) {
         fprintf(file, "\n");
         tabCount--;
         ADD_TABS();
     }
+    else fprintf(file, " ");
+
     fprintf(file, "}");
 }

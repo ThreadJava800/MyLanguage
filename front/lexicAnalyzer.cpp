@@ -150,10 +150,10 @@ Node_t* newVar(FILE* file, List_t* vars, Node_t* prev) {
     char command[MAX_WORD_LENGTH] = "";
     int symbCount = getWord(file, command);
     SYNTAX_ERROR(!symbCount, "Need variable name after var declaration!");
-    int index = (int) listPushBack(vars, strdup(command));
+    listPushBack(vars, strdup(command));
 
-    Node_t* rightNode  = nodeCtor(VARIABLE, {.num = index}, nullptr, nullptr, nullptr);
-    Node_t* returnNode = nodeCtor(VAR, {.num = index}, nullptr, rightNode, prev);
+    Node_t* rightNode  = nodeCtor(VARIABLE, {.num = (int) vars->size - 1}, nullptr, nullptr, nullptr);
+    Node_t* returnNode = nodeCtor(VAR, {.num = (int) vars->size - 1}, nullptr, rightNode, prev);
     PREV(rightNode) = returnNode;
     
     return rightNode;
@@ -165,13 +165,12 @@ Node_t* checkVariable(char* varName, List_t* vars, Node_t* prev) {
 
     bool isMet = false;
     int varIndex = -1;
-    for (int i = 0; i <= vars->size; i++) {
-        if (vars->values[i].value) {
-            if (!strcmp(vars->values[i].value, varName)) {
-                varIndex = i;
-                isMet = true;
-                break;
-            }
+    for (int i = 0; i < vars->size; i++) {
+        ListElement_t* value = logicToPhysics(vars, i);
+        if (!strcmp(value->value, varName)) {
+            varIndex = i;
+            isMet = true;
+            break;
         }
     }
     SYNTAX_ERROR(!isMet, "Unknown variable name: %s", varName);

@@ -1,3 +1,5 @@
-var a = 5 ;
-var b = 5 ;
-b = 5 ;
+var a = 5 + 4 ;
+var s = 5 ;
+if (s == 3) {
+    var z = 1 ;
+} ;

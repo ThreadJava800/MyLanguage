@@ -1,5 +1,5 @@
-#ifndef LIST_H
-#define LIST_H
+#ifndef CLASSIC_LIST_H
+#define CLASSIC_LIST_H
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -15,7 +15,6 @@
 typedef char* Elem_t;
 
 const Elem_t POISON = nullptr;
-const long NUM_POISON = 0;
 
 const int RESIZE_COEFFICIENT = 2;
 
@@ -42,12 +41,13 @@ enum ListErrors {
     ALREADY_POISON        = -15,
     LOSING_DATA           = -16,
     CANNOT_OPEN_FILE      = -17,
+    INDEX_NULL            = -18,
 };
 
 struct ListElement_t {
-    Elem_t value  = POISON;
-    long previous = NUM_POISON;
-    long next     = NUM_POISON;
+    Elem_t         value    = POISON;
+    ListElement_t* previous = nullptr;
+    ListElement_t* next     = nullptr;
 };
 
 #if _DEBUG
@@ -60,17 +60,11 @@ struct ListDebug_t {
 #endif
 
 struct List_t {
-    ListElement_t *values      = {};
-    long        free           = NUM_POISON;
-
-    long        size           = NUM_POISON;
-    long        capacity       = NUM_POISON;
-
-    short         linearized   = 1;
-    short         needLinear   = 1;
+    ListElement_t *zero    = nullptr;
+    long           size    = -1;
 
     #if _DEBUG
-    ListDebug_t debugInfo = {};
+    ListDebug_t debugInfo  = {};
     #endif
 };
 
@@ -82,14 +76,14 @@ struct List_t {
     }                                     \
 }                                          \
 
-void _listCtor(List_t *list, long listSize, short needLinear, int *err = nullptr);
+void _listCtor(List_t *list, int *err = nullptr);
 
 #if _DEBUG
 
     #define listCtor(list, ...) {                               \
         if (list) {                                              \
             (list)->debugInfo.createFunc = __PRETTY_FUNCTION__;   \
-            (list)->debugInfo.createFile = __FILE__;               \
+            (list)->debugInfo.createFile = __FILE_NAME__;          \
             (list)->debugInfo.createLine = __LINE__;                \
             (list)->debugInfo.name       = #list;                    \
         }                                                             \
@@ -104,39 +98,29 @@ void _listCtor(List_t *list, long listSize, short needLinear, int *err = nullptr
 
 #endif
 
-void fillElemList(ListElement_t *listElems, long capacity, int *err = nullptr);
-
 int listVerify(List_t *list);
 
-long _listInsertPhys(List_t *list, Elem_t value, long index, int *err = nullptr);
+ListElement_t* _listInsertPhys(List_t *list, Elem_t value, ListElement_t *index, int *err = nullptr);
 
-long listInsert(List_t *list, Elem_t value, long index, int *err = nullptr);
+ListElement_t* elementNew(Elem_t value, ListElement_t* next, ListElement_t* prev, int *err = nullptr);
 
-long listPushBack(List_t *list, Elem_t value, int *err = nullptr);
+ListElement_t* listInsert(List_t *list, Elem_t value, long index, int *err = nullptr);
 
-long listPushFront(List_t *list, Elem_t value, int *err = nullptr);
+ListElement_t* listPushBack(List_t *list, Elem_t value, int *err = nullptr);
 
-Elem_t _listRemovePhys(List_t *list, long index, int *err = nullptr);
+ListElement_t* listPushFront(List_t *list, Elem_t value, int *err = nullptr);
+
+Elem_t _listRemovePhys(List_t *list, ListElement_t *index, int *err = nullptr);
+
+void elementDelete(ListElement_t* element, int *err = nullptr);
 
 Elem_t listRemove(List_t *list, long index, int *err = nullptr);
 
-[[nodiscard]] long logicToPhysics(List_t *list, long logicIndex, int *err = nullptr);
-
-void listLinearize(List_t *list, int *err = nullptr);
-
-void listResize(List_t *list, long newCapacity, int *err = nullptr);
-
-int checkForPoisons(List_t *list, long newCapacity, int *err = nullptr);
-
-void listRealloc(List_t *list, long newCapacity, int *err = nullptr);
-
-void poisonList(List_t *list, long newCapacity, long oldCapacity, int *err = nullptr);
+[[nodiscard]] ListElement_t* logicToPhysics(List_t *list, long logicIndex, int *err = nullptr);
 
 void listDtor(List_t *list, int *err = nullptr);
 
 void visualGraph(List_t *list, const char *action = "");
-
-long physicToLogic(List_t *list, long start, long phys, int *err = nullptr);
 
 #if _DEBUG
 

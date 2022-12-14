@@ -54,7 +54,7 @@ DEF_CMD(JMP, 10, {
 }, 2)
 
 DEF_CMD(CALL, 11, {
-    stackPush(&cpu->callStack, cpu->ip + sizeof(char) + sizeof(int), &errorCode);
+    stackPush(&cpu->callStack, (size_t) cpu->ip + sizeof(char) + sizeof(int), &errorCode);
     errorCode = jmp(cpu);
 }, 2)
 

@@ -17,4 +17,4 @@ static const char *language[] = {
 
 const char iMask = 0x20;
 const char rMask = 0x40;
-const char mMask = 0x80;
+const char mMask = (char) 0x80;

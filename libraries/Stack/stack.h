@@ -218,7 +218,7 @@ void _stackCtor(Stack_t *stack, size_t capacity, PrintFunction func = printElemT
     #define stackCtor(stack, ...) {\
         if (stack) {\
             (stack)->debug.createFunc = __PRETTY_FUNCTION__;\
-            (stack)->debug.createFile = __FILE_NAME__;\
+            (stack)->debug.createFile = __FILE__;\
             (stack)->debug.createLine = __LINE__;\
             (stack)->debug.name = #stack;\
         }\

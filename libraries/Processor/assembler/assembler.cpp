@@ -28,8 +28,8 @@ int execute(const char *fileName, const char *outputName) {
     error = checkCommands(&commands);
     if (error) return error;
 
-    char *machineCommands = (char *) calloc(3 * commands.size, sizeof(int));
-    Label_t *labels = (Label_t *) calloc(commands.size, sizeof(Label_t));
+    char *machineCommands = (char *) calloc(3 * (size_t) commands.size, sizeof(int));
+    Label_t *labels = (Label_t *) calloc((size_t) commands.size, sizeof(Label_t));
     if (!machineCommands || !labels) return NULL_PTR;
 
     Assembler_t assembler = {
@@ -88,8 +88,8 @@ int compile(Assembler_t *assembler, Label_t *labels, int *labelCount, int compil
 
             if (successfuleInputs == 1) {
                 int metLabel = 0;
-                for (int i = 0; i < *labelCount; i++) {
-                    if (!strcasecmp(labels[i].labelTxt, label)) {
+                for (int j = 0; j < *labelCount; j++) {
+                    if (!strcasecmp(labels[j].labelTxt, label)) {
                         metLabel = 1;
                     }
                 }
@@ -134,7 +134,7 @@ int generateMachineFile(Assembler_t *assembler, const char *fileName) {
     fwrite(&SIGNATURE, sizeof(SIGNATURE), 1, output);
     fwrite(&VERSION,   sizeof(VERSION),   1, output);
     fwrite(&assembler->commandCount,      sizeof(assembler->commandCount),       1,                       output);
-    fwrite( assembler->machineCommands,   sizeof(assembler->machineCommands[0]), assembler->commandBytes, output);
+    fwrite( assembler->machineCommands,   sizeof(assembler->machineCommands[0]), (size_t) assembler->commandBytes, output);
 
     fclose(output);
 
@@ -195,14 +195,14 @@ int parsePushPop(Assembler_t *assembler, int ip, char commandId) {
 
     memcpy(assembler->machineCommands, &arg1, sizeof(int));
     assembler->machineCommands += sizeof(int);
-    assembler->commandBytes    += sizeof(int);
+    assembler->commandBytes    += (long) sizeof(int);
 
     assembler->commandCount += 2;
 
     if (count == 2) {
         memcpy(assembler->machineCommands, &arg2, sizeof(int));
         assembler->machineCommands += sizeof(int);
-        assembler->commandBytes += sizeof(int);
+        assembler->commandBytes += (long) sizeof(int);
         assembler->commandCount++;
     }
 
@@ -226,7 +226,7 @@ int parseJumpCall(Assembler_t *assembler, int ip, char commandType, int *needSec
             if (!strcmp(labels[i].labelTxt, buf)) {
                 memcpy(assembler->machineCommands, &(labels[i].gotoIp), sizeof(int));
                 assembler->machineCommands += sizeof(int);
-                assembler->commandBytes += sizeof(int);
+                assembler->commandBytes += (long) sizeof(int);
 
                 metLabel = 1;
                 break;
@@ -237,7 +237,7 @@ int parseJumpCall(Assembler_t *assembler, int ip, char commandType, int *needSec
                 int poison = -1;
                 memcpy(assembler->machineCommands, &poison, sizeof(int));
                 assembler->machineCommands += sizeof(int);
-                assembler->commandBytes += sizeof(int);
+                assembler->commandBytes += (long) sizeof(int);
 
                 *needSecondCompile = 1;
             }

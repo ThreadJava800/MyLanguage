@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <math.h>
-#include <SDL2/SDL.h>
+
 
 #include "../../MStringParser/onegin.h"
 #include "../../Stack/stack.h"
@@ -74,5 +74,5 @@ void dump(Cpu_t *cpu, int errorCode, const char *file, const char *function, int
 void hlt();
 
 #define DUMP_CPU(cpu, errorCode) {                                             \
-    dump(cpu, errorCode, __FILE_NAME__, __PRETTY_FUNCTION__, __LINE__);         \
+    dump(cpu, errorCode, __FILE__, __PRETTY_FUNCTION__, __LINE__);         \
 };                                                                               

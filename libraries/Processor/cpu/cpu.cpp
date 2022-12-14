@@ -1,3 +1,4 @@
+#pragma warning(push, 0)
 #include "cpu.h"
 
 int checkCpu(Cpu_t *cpu) {
@@ -77,8 +78,8 @@ int parseCommands(FILE *file, Cpu_t *cpu) {
 
     Stack_t stack = {};
     Stack_t callStack = {};
-    stackCtor(&stack, 1);
-    stackCtor(&callStack, 1);
+    _stackCtor(&stack, 1);
+    _stackCtor(&callStack, 1);
     int reg[REGSIZE] = {}; 
     int ram[RAMSIZE] = {};
 
@@ -265,25 +266,27 @@ int jmp(Cpu_t *cpu) {
 
 void dump(Cpu_t *cpu, int errorCode, const char *file, const char *function, int line) {
     if (cpu) {
-        dumpStack(&cpu->stack, stderr, errorCode, printElemT, function, file, line);
-        mprintf(stderr, "REGISTER:\n");
+        // dumpStack(&cpu->stack, stderr, errorCode, printElemT, function, file, line);
+        fprintf(stderr, "REGISTER:\n");
         for (int i = 0; i < REGSIZE; i++) {
-            mprintf(stderr, "\t[%d]: %d\n", i, cpu->reg[i]);
+            fprintf(stderr, "\t[%d]: %d\n", i, cpu->reg[i]);
         }
 
-        mprintf(stderr, "RAM:\n");
+        fprintf(stderr, "RAM:\n");
         for (int i = 0; i < 4; i++) {
-            mprintf(stderr, "\t[%d]: %d\n", i, cpu->ram[i]);
+            fprintf(stderr, "\t[%d]: %d\n", i, cpu->ram[i]);
         }
-        mprintf(stderr, "...\n");
+        fprintf(stderr, "...\n");
         for (int i = RAMSIZE - 4; i < RAMSIZE; i++) {
-            mprintf(stderr, "\t[%d]: %d\n", i, cpu->ram[i]);
+            fprintf(stderr, "\t[%d]: %d\n", i, cpu->ram[i]);
         }
     } else {
-        mprintf(stderr, "%s", "CPU[0x00000000] - NULLPTR");
+        fprintf(stderr, "%s", "CPU[0x00000000] - NULLPTR");
     }
 }
 
 void hlt() {
     exit(0);
 }
+
+#pragma warning(pop)

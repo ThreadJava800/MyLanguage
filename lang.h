@@ -6,8 +6,8 @@
 #include <malloc.h>
 #include <ctype.h>
 
-#include "tree/tree.h"
-#include "LinkedList/list.h"
+#include "libraries/tree/tree.h"
+#include "libraries/LinkedList/list.h"
 #include "syntax.h"
 
 const int MAX_WORD_LENGTH = 4096;

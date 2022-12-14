@@ -11,7 +11,11 @@ CFLAGS  = -D _DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextra -Weffc++ -Waggressive-lo
 -fno-omit-frame-pointer -pie -fPIE -Werror=vla \
 # -fsanitize=address,alignment,bool,bounds,enum,float-cast-overflow,float-divide-by-zero,integer-divide-by-zero,leak,nonnull-attribute,null,object-size,return,returns-nonnull-attribute,shift,signed-integer-overflow,undefined,unreachable,vla-bound,vptr
 
-SOURCES=LinkedList/list.h LinkedList/list.cpp tree/tree.h tree/tree.cpp lang.h front/lexicAnalyzer.cpp front/recursiveDescent.cpp front/treeBuilder.cpp Stack/stack.h Stack/errorHandler.cpp Stack/stack.cpp MStringParser/onegin.h MStringParser/onegin.cpp Processor/assembler/assembler.h Processor/assembler/assembler.cpp main.cpp
+
+SOURCES=libraries/LinkedList/list.h libraries/LinkedList/list.cpp libraries/tree/tree.h libraries/tree/tree.cpp lang.h \
+front/lexicAnalyzer.cpp front/recursiveDescent.cpp front/treeBuilder.cpp libraries/Stack/stack.h libraries/Stack/errorHandler.cpp \
+libraries/Stack/stack.cpp libraries/MStringParser/onegin.h libraries/MStringParser/onegin.cpp \
+libraries/Processor/assembler/assembler.h libraries/Processor/assembler/assembler.cpp main.cpp
 
 EXECUTABLE=lang
  

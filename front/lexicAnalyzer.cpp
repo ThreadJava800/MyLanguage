@@ -1,39 +1,38 @@
 #include "../lang.h"
 
-Node_t* readLangFile(const char* fileName) {
+Node_t* readLangFile(const char* fileName, List_t* vars) {
     ON_ERROR(!fileName, "File name was null", nullptr);
+    ON_ERROR(!vars, "Var list is null", nullptr);
 
     FILE* file = fopen(fileName, "rb");
     ON_ERROR(!file, "File not found", nullptr);
 
-    Node_t* entities = parseFile(file);
+    Node_t* entities = parseFile(file, vars);
     fclose(file);
 
     return entities;
 }
 
-Node_t* parseFile(FILE* file) {
+Node_t* parseFile(FILE* file, List_t* vars) {
     ON_ERROR(!file, "File is null", nullptr);
+    ON_ERROR(!vars, "Var list is null", nullptr);
 
     Node_t* curNode = nullptr;
     int symb = EOF;
 
-    List_t vars = {};
-    _listCtor(&vars, 1, 0);
     while ((symb = fgetc(file)) != EOF) {
         ungetc(symb, file);
         SKIP_SPACES();
 
         curNode = parseOper(file, curNode);
 
-        curNode = parseWord(file, curNode, &vars);
+        curNode = parseWord(file, curNode, vars);
         SKIP_SPACES();
 
         curNode = parseNum(file, curNode);
     }
 
     curNode = headStart(curNode);
-    // graphDump(curNode);
 
     return curNode;
 }
@@ -131,16 +130,53 @@ Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars) {
         if(!strcmp(command, ifCom))    return nodeCtor(IF, {}, nullptr, nullptr, prev);
         if(!strcmp(command, whileCom)) return nodeCtor(WHILE, {}, nullptr, nullptr, prev);
         if(!strcmp(command, elseCom))  return nodeCtor(ELSE, {}, nullptr, nullptr, prev);
+        if(!strcmp(command, varCom))   return newVar(file, vars, prev);
         if(!strcmp(command, assCom))   return nodeCtor(OPERATOR, {.opt = ASSIGN_OP}, nullptr, nullptr, prev);
         if(!strcmp(command, outCom))   return nodeCtor(OPERATOR, {.opt = OUT_OP}, nullptr, nullptr, prev);
         if(!strcmp(command, equCom))   return nodeCtor(OPERATOR, {.opt = EQU_OP}, nullptr, nullptr, prev);
 
-        char* varName = strdup(command);
-        listPushBack(vars, varName);
-        return nodeCtor(VARIABLE, {.var = varName}, nullptr, nullptr, prev);
+        return checkVariable(strdup(command), vars, prev);
     }
 
     return prev;
+}
+
+Node_t* newVar(FILE* file, List_t* vars, Node_t* prev) {
+    ON_ERROR(!file, "File is null", nullptr);
+    ON_ERROR(!vars, "List is null", nullptr);
+
+    SKIP_SPACES();
+
+    char command[MAX_WORD_LENGTH] = "";
+    int symbCount = getWord(file, command);
+    SYNTAX_ERROR(!symbCount, "Need variable name after var declaration!");
+    int index = (int) listPushBack(vars, strdup(command));
+
+    Node_t* rightNode  = nodeCtor(VARIABLE, {.num = index}, nullptr, nullptr, nullptr);
+    Node_t* returnNode = nodeCtor(VAR, {.num = index}, nullptr, rightNode, prev);
+    PREV(rightNode) = returnNode;
+    
+    return rightNode;
+}
+
+Node_t* checkVariable(char* varName, List_t* vars, Node_t* prev) {
+    ON_ERROR(!varName, "Nullable name", nullptr);
+    ON_ERROR(!vars, "List is null", nullptr);
+
+    bool isMet = false;
+    int varIndex = -1;
+    for (int i = 0; i <= vars->size; i++) {
+        if (vars->values[i].value) {
+            if (!strcmp(vars->values[i].value, varName)) {
+                varIndex = i;
+                isMet = true;
+                break;
+            }
+        }
+    }
+    SYNTAX_ERROR(!isMet, "Unknown variable name: %s", varName);
+
+    return nodeCtor(VARIABLE, {.num = varIndex}, nullptr, nullptr, prev);
 }
 
 int getWord(FILE* file, char* buffer) {

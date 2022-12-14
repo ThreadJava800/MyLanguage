@@ -1,4 +1,4 @@
-a = b ;
+var a = b ;
 x = 2 ;
 if (x == 2) {
     a = b ;

@@ -31,7 +31,9 @@ Node_t* head(Node_t* cur) {
 Node_t* makeConnections(Node_t* info) {
     ON_ERROR(!info, "Node is null", nullptr);
 
-    return getG(&info);
+    Node_t* res = getG(&info);
+
+    return res;
 }
 
 Node_t* getG(Node_t** info) {
@@ -39,7 +41,7 @@ Node_t* getG(Node_t** info) {
 
     Node_t* headNode = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr);
     while (*info) {
-        L(headNode) = getE(info);
+        L(headNode) = getVar(info);
         addPrevs(L(headNode));
         PREV(L(headNode)) = headNode;
 
@@ -51,6 +53,19 @@ Node_t* getG(Node_t** info) {
     }
 
     return head(headNode);
+}
+
+Node_t* getVar(Node_t** info) {
+    ON_ERROR(!info, "Node is null", nullptr);
+
+    if (!(IS_VAR(*info))) return getE(info);
+
+    // TODO: add normal index!
+    Node_t* varNode = nodeCtor(VAR, {.num = (*info)->value.num}, nullptr, nullptr, nullptr);
+    *info = R(*info);
+    Node_t* assNode = getE(info);
+
+    return nodeCtor(FICTITIOUS, {}, varNode, assNode, nullptr);
 }
 
 Node_t* getE(Node_t** info) {
@@ -132,7 +147,6 @@ Node_t* getX(Node_t** info) {
     }
     if (IS_IF(*info)) return getIF(info);
 
-    printf("%d\n", (*info)->value.opt);
     return nullptr;
 }
 
@@ -158,7 +172,6 @@ Node_t* getIF(Node_t** info) {
 Node_t* getElse(Node_t** info) {
     ON_ERROR(!info, "Node is null", nullptr);
 
-    printf("%d\n", (*info)->value.opt);
     if (!(IS_ELSE(*info))) return nullptr;
 
     *info = R(*info);
@@ -173,8 +186,7 @@ Node_t* getDoNode(Node_t** info) {
 
     Node_t* toDoNode = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr);
     while (!(IS_C_FIG_BR(*info))) {
-        printf("in");
-        L(toDoNode) = getE(info);
+        L(toDoNode) = getVar(info);
         addPrevs(L(toDoNode));
         PREV(L(toDoNode)) = toDoNode;
 

@@ -91,4 +91,16 @@ Node_t* getElse(Node_t** info);
 
 Node_t* getDoNode(Node_t** info);
 
+// TREE BUILDER
+
+void printTree(const char* outputName, Node_t* tree, List_t* vars);
+
+void printHeader(FILE* file, List_t* vars);
+
+#define ADD_TABS() {                                        \
+    for (int i = 0; i < tabCount; i++) fprintf(file, "\t");  \
+}                                                             \
+
+void printNode(FILE* file, Node_t* node, int tabCount = 0);
+
 #endif

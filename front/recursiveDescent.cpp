@@ -48,7 +48,7 @@ Node_t* getG(Node_t** info) {
         R(headNode) = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, headNode);
         headNode = R(headNode);
 
-        SYNTAX_ERROR(!whatOper(*info, END_LINE_OP), "missing ;!");
+        // SYNTAX_ERROR(!whatOper(*info, END_LINE_OP), "missing ;!");
         *info = R(*info);
     }
 

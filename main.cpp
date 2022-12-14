@@ -5,12 +5,13 @@ int main(int argc, char *argv[]) {
         List_t vars = {};
         _listCtor(&vars, 1, 0);
         Node_t* node = readLangFile(argv[1], &vars);
-        for (int i = 0; i <= vars.size; i++) {
-            if (vars.values[i].value) printf("%.3d %s\n", i, vars.values[i].value);
-            else printf("%.3d (nil)\n", i);
-        }
+        // for (int i = 0; i <= vars.size; i++) {
+        //     if (vars.values[i].value) printf("%.3d %s\n", i, vars.values[i].value);
+        //     else printf("%.3d (nil)\n", i);
+        // }
         Node_t* con  = makeConnections(node);
-        graphDump(con);
+        // graphDump(con);
+        printTree("test.o", con, &vars);
 
         nodeDtor(con);
     } else {

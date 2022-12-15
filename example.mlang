@@ -2,11 +2,14 @@ var v = 5 ;
 
 hh test ( a b c d ) {
     a = 5 ;
-    v = 6 ;
-    var x = 6 ;
-    var z = 7 ;
+    getout a ;
+    getout b ;
+    getout c ;
+    getout d ;
     to_production 4 ;
 } ;
-var b = 6 ;
-var g = 7 ;
-runmf test( v b g ) ;
+var a = 6 ;
+var b = 7 ;
+var c = 8 ;
+var d = 9 ;
+runmf test( a b c d ) ;

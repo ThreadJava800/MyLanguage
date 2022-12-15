@@ -81,7 +81,7 @@ void readNode(Node_t* node, FILE* outputFile) {
             fprintf(outputFile, "RET");
             break;
         case CALL:
-            fprintf(outputFile, "CALL func_%d\n", node->value.num);
+            readCall(node, outputFile);
             break;
         default:
             SYNTAX_ERROR(true, "Unknown type: %d", node->type);
@@ -192,8 +192,51 @@ void readFunc(Node_t* node, FILE* outputFile) {
     fprintf(outputFile, "JMP continue_%p\n", node);
 
     fprintf(outputFile, "\nfunc_%d:\n", node->value.num);
+    parseFuncArgs(L(node), outputFile);
     readNode(R(node), outputFile);
     fprintf(outputFile, "\n\n");
 
     fprintf(outputFile, "\ncontinue_%p:\n", node);
+}
+
+void parseFuncArgs(Node_t* node, FILE* outputFile) {
+    ON_ERROR(!node, "Node is null", );
+    ON_ERROR(!outputFile, "File is null", );
+
+    if (IS_VARIABLE(node)) {
+        fprintf(outputFile, "POP [%d]\n", node->value.num);
+    }
+
+    if (R(node)) parseFuncArgs(R(node), outputFile);
+    if (L(node)) parseFuncArgs(L(node), outputFile);
+}
+
+void readCall(Node_t* node, FILE* outputFile) {
+    ON_ERROR(!node, "Node is null", );
+    ON_ERROR(!outputFile, "File is null", );
+
+    List_t list = {};
+    _listCtor(&list);
+    parseCallArgs(node, outputFile, &list);
+    for (int i = list.size - 1; i >= 0; i--) {
+        ListElement_t* elem = logicToPhysics(&list, i);
+        fprintf(outputFile, "%s", elem->value);
+    }
+    fprintf(outputFile, "CALL func_%d\n", node->value.num);
+}
+
+void parseCallArgs(Node_t* node, FILE* outputFile, List_t* list) {
+    ON_ERROR(!node, "Node is null", );
+    ON_ERROR(!outputFile, "File is null", );
+    ON_ERROR(!list, "File is null", );
+
+    if (IS_VARIABLE(node)) {
+        printf("in");
+        char com[MAX_WORD_LENGTH] = "";
+        sprintf(com, "PUSH [%d]\n", node->value.num);
+        listPushBack(list, strdup(com));
+    }
+
+    if (R(node)) parseCallArgs(R(node), outputFile, list);
+    if (L(node)) parseCallArgs(L(node), outputFile, list);
 }

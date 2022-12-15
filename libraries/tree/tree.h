@@ -98,6 +98,7 @@ struct Node_t {
 #define IS_ELSE(node) (node)->type == ELSE
 #define IS_VAR(node) (node)->type == VAR
 #define IS_DEF(node) (node)->type == DEF
+#define IS_VARIABLE(node) (node)->type == VARIABLE
 
 #define IS_OUT(node) ((node)->type == OPERATOR) && ((node)->value.opt == OUT_OP)
 #define IS_IN(node) ((node)->type == OPERATOR) && ((node)->value.opt == IN_OP)

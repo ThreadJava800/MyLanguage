@@ -144,4 +144,10 @@ void readWhile(Node_t* node, FILE* outputFile);
 
 void readFunc(Node_t* node, FILE* outputFile);
 
+void parseFuncArgs(Node_t* node, FILE* outputFile);
+
+void readCall(Node_t* node, FILE* outputFile);
+
+void parseCallArgs(Node_t* node, FILE* outputFile, List_t* list);
+
 #endif

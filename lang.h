@@ -91,6 +91,8 @@ Node_t* getElse(Node_t** info);
 
 Node_t* getDoNode(Node_t** info);
 
+Node_t* getOut(Node_t** info);
+
 // TREE BUILDER
 
 void printTree(const char* outputName, Node_t* tree, List_t* vars);

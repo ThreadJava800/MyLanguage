@@ -145,7 +145,8 @@ Node_t* getX(Node_t** info) {
         R(retData) = PREV(retData) = nullptr;
         return retData;
     }
-    if (IS_IF(*info)) return getIF(info);
+    if (IS_IF(*info))  return getIF(info);
+    if (IS_OUT(*info)) return getOut(info);
 
     return nullptr;
 }
@@ -200,4 +201,17 @@ Node_t* getDoNode(Node_t** info) {
     *info = R(*info);
 
     return head(toDoNode);
+}
+
+Node_t* getOut(Node_t** info) {
+    ON_ERROR(!info, "Node is null", nullptr);
+
+    *info = R(*info);
+    Node_t* toPrintNode = getX(info);
+    SYNTAX_ERROR(!toPrintNode, "Out command is used incorrectly!");
+
+    Node_t* retNode  =  nodeCtor(OPERATOR, {.num = OUT_OP}, toPrintNode, 
+                                            nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr), nullptr);
+    addPrevs(retNode);
+    return head(retNode);
 }

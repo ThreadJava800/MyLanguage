@@ -92,6 +92,10 @@ void readOperator(Node_t* node, FILE* outputFile) {
             readNode(R(node), outputFile);
             fprintf(outputFile, "JE ");
             break;
+        case OUT_OP:
+            readNode(L(node), outputFile);
+            fprintf(outputFile, "OUT\n");
+            break;
         default:
             break;
     }
@@ -101,10 +105,13 @@ void readIf(Node_t* node, FILE* outputFile) {
     ON_ERROR(!node, "Node is null", );
     ON_ERROR(!outputFile, "File is null", );
 
+    fprintf(outputFile, "JMP if_main_%p\n", node);
+
     fprintf(outputFile, "\nif_%p:\n", node);
     readNode(L(R(node)), outputFile);
     fprintf(outputFile, "JMP leave_if_%p\n\n", node);
 
+    fprintf(outputFile, "if_main_%p:\n", node);
     readNode(L(node), outputFile);
     fprintf(outputFile, "if_%p\n", node);
     fprintf(outputFile, "\nleave_if_%p:\n", node);

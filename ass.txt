@@ -8,22 +8,30 @@ PUSH 0
 POP [1]
 PUSH 15
 POP [1]
+PUSH 5
+OUT
+JMP if_main_0x5625013d9660
 
-if_0x55daf9ccf5e0:
+if_0x5625013d9660:
+PUSH 90
+OUT
 PUSH 0
 POP [2]
 PUSH 1
 POP [2]
 PUSH 3
 POP [2]
-JMP leave_if_0x55daf9ccf5e0
+JMP leave_if_0x5625013d9660
 
+if_main_0x5625013d9660:
 PUSH [1]
-PUSH 3
-JE if_0x55daf9ccf5e0
+PUSH 15
+JE if_0x5625013d9660
 
-leave_if_0x55daf9ccf5e0:
+leave_if_0x5625013d9660:
 PUSH 0
 POP [3]
 PUSH 5
 POP [3]
+PUSH 11
+OUT

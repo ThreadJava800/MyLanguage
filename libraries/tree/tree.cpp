@@ -35,7 +35,7 @@ void printElemT(FILE *file, NodeType type, NodeValue value) {
             fprintf(file, "VARIABLE DECLARATION %d", value.num);
             break;
         case DEF:
-            fprintf(file, "DEF");
+            fprintf(file, "DEF %d", value.num);
             break;
         case CALL:
             fprintf(file, "CALL");

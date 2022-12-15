@@ -12,6 +12,8 @@ void readTreeFile(const char* inputName, const char* outputName) {
     fileToTree(readFile, &node);
     addPrevs(node);
 
+    graphDump(node);
+
     readNode(node, outputFile);
 
     fclose(readFile);
@@ -69,6 +71,14 @@ void readNode(Node_t* node, FILE* outputFile) {
             break;
         case WHILE:
             readWhile(node, outputFile);
+            break;
+        case DEF:
+            readFunc(node, outputFile);
+            break;
+        case RETURN:
+            readNode(L(node), outputFile);
+            fprintf(outputFile, "POP [rax]\n");
+            fprintf(outputFile, "RET");
             break;
         default:
             printf("%d\n", node->type);
@@ -165,4 +175,13 @@ void readWhile(Node_t* node, FILE* outputFile) {
     fprintf(outputFile, "JMP leave_while_%p\n\n", node);
     fprintf(outputFile, "\nleave_while_%p:\n", node);
     if (!R(PREV(node))) fprintf(outputFile, "HLT\n");
+}
+
+void readFunc(Node_t* node, FILE* outputFile) {
+    ON_ERROR(!node, "Node is null", );
+    ON_ERROR(!outputFile, "File is null", );
+
+    fprintf(outputFile, "func_%d:\n", node->value.num);
+    readNode(R(node), outputFile);
+    fprintf(outputFile, "\n\n");
 }

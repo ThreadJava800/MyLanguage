@@ -77,6 +77,8 @@ Node_t* getG(Node_t** info);
 
 Node_t* getVar(Node_t** info);
 
+Node_t* getDef(Node_t** info);
+
 Node_t* getE(Node_t** info);
 
 Node_t* getT(Node_t** info);
@@ -98,6 +100,8 @@ Node_t* getOut(Node_t** info);
 Node_t* getIn(Node_t** info);
 
 Node_t* getWhile(Node_t** info);
+
+Node_t* getRet(Node_t** info);
 
 // TREE BUILDER
 
@@ -126,5 +130,7 @@ void readIf(Node_t* node, FILE* outputFile);
 void readAssign(Node_t* node, FILE* outputFile);
 
 void readWhile(Node_t* node, FILE* outputFile);
+
+void readFunc(Node_t* node, FILE* outputFile);
 
 #endif

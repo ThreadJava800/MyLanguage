@@ -19,10 +19,10 @@ int main(int argc, char *argv[]) {
             printf("%s\n", elem->value);
         }
 
-        // Node_t* con  = makeConnections(node);
-        graphDump(node);
-        // printTree("test.o", con, &vars);
-        // readTreeFile("test.o", "ass.txt");
+        Node_t* con  = makeConnections(node);
+        // graphDump(con);
+        printTree("test.o", con, &vars);
+        readTreeFile("test.o", "ass.txt");
 
         // system("./libraries/Processor/assembler/assembler ass.txt ../../../output.txt");
         // system("./libraries/Processor/cpu/cpu ../../../output.txt");

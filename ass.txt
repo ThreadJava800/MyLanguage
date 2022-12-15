@@ -1,24 +1,13 @@
+func_0:
 PUSH 0
 POP [0]
-IN
+PUSH 6
 POP [0]
-JMP if_main_0x55fdb4eb5fe0
+PUSH 0
+POP [1]
+PUSH 7
+POP [1]
+PUSH 0
+POP [rax]
+RET
 
-if_0x55fdb4eb5fe0:
-PUSH 90
-OUT
-JMP leave_if_0x55fdb4eb5fe0
-
-
-else_0x55fdb4eb5fe0:
-JMP leave_if_0x55fdb4eb5fe0
-
-if_main_0x55fdb4eb5fe0:
-PUSH 15
-PUSH [0]
-JA if_0x55fdb4eb5fe0
-JMP else_0x55fdb4eb5fe0
-
-leave_if_0x55fdb4eb5fe0:
-PUSH 1
-OUT

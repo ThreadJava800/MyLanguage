@@ -1,5 +1,5 @@
 hh test () {
+    var a = 6 ;
+    var b = 7 ;
     to_production 0 ;
 } ;
-
-test() ;

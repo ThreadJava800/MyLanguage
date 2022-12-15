@@ -58,14 +58,27 @@ Node_t* getG(Node_t** info) {
 Node_t* getVar(Node_t** info) {
     ON_ERROR(!info, "Node is null", nullptr);
 
-    if (!(IS_VAR(*info))) return getE(info);
+    if (!(IS_VAR(*info))) return getDef(info);
 
-    // TODO: add normal index!
     Node_t* varNode = nodeCtor(VAR, {.num = (*info)->value.num}, nullptr, nullptr, nullptr);
     *info = R(*info);
-    Node_t* assNode = getE(info);
+    Node_t* assNode = getDef(info);
 
     return nodeCtor(FICTITIOUS, {}, varNode, assNode, nullptr);
+}
+
+Node_t* getDef(Node_t** info) {
+    ON_ERROR(!info, "Node is null", nullptr);
+
+    if (!(IS_DEF(*info))) return getE(info);
+
+    Node_t* varNode = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr);
+    int funIndex = (*info)->value.num;
+    *info = R(*info);
+    *info = R(*info);
+    Node_t* assNode = getDoNode(info);
+
+    return nodeCtor(DEF, {.num = funIndex}, varNode, assNode, nullptr);
 }
 
 Node_t* getE(Node_t** info) {
@@ -148,6 +161,7 @@ Node_t* getX(Node_t** info) {
     if (IS_IF(*info))    return getIF(info);
     if (IS_OUT(*info))   return getOut(info);
     if (IS_WHILE(*info)) return getWhile(info);
+    if (IS_RET(*info))   return getRet(info);
 
     return nullptr;
 }
@@ -231,4 +245,12 @@ Node_t* getWhile(Node_t** info) {
     Node_t* toDoNode = getDoNode(info);
 
     return nodeCtor(WHILE, {}, caseNode, toDoNode, nullptr);
+}
+
+Node_t* getRet(Node_t** info) {
+    ON_ERROR(!info, "Node is null", nullptr);
+
+    *info = R(*info);
+    Node_t* returnNode = getX(info);
+    return nodeCtor(RETURN, {}, returnNode, nullptr, nullptr);
 }

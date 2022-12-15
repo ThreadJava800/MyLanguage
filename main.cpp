@@ -10,6 +10,9 @@ int main(int argc, char *argv[]) {
         printTree("test.o", con, &vars);
         readTreeFile("test.o", "ass.txt");
 
+        system("./libraries/Processor/assembler/assembler ass.txt ../../../output.txt");
+        system("./libraries/Processor/cpu/cpu ../../../output.txt");
+
         nodeDtor(con);
     } else {
         fprintf(stderr, "Incorrect arguments provided\n");

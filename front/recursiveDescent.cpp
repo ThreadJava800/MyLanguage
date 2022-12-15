@@ -172,7 +172,7 @@ Node_t* getIF(Node_t** info) {
 Node_t* getElse(Node_t** info) {
     ON_ERROR(!info, "Node is null", nullptr);
 
-    if (!(IS_ELSE(*info))) return nullptr;
+    if (!(IS_ELSE(*info))) return nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr);
 
     *info = R(*info);
     return getDoNode(info);

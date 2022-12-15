@@ -2,5 +2,6 @@ var a = 5 + 4 ;
 var s = 15 ;
 if (s == 3) {
     var z = 1 ;
+    z = 3 ;
 } ;
 var x = 5 ;

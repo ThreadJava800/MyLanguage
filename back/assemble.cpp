@@ -68,6 +68,7 @@ void readNode(Node_t* node, FILE* outputFile) {
             readIf(node, outputFile);
             break;
         default:
+            printf("%d\n", node->type);
             break;
     }
 }

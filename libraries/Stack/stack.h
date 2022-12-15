@@ -10,11 +10,11 @@
 #include <time.h>
 
 #ifndef HASH_PROTECT
-#define HASH_PROTECT 1
+#define HASH_PROTECT 0
 #endif
 
 #ifndef CANARY_PROTECT
-#define CANARY_PROTECT 1
+#define CANARY_PROTECT 0
 #endif
 
 #ifndef _DEBUG

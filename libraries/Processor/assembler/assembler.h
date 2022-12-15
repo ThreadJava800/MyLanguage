@@ -37,7 +37,7 @@ struct Label_t {
     int gotoIp = 0;
 };
 
-const int MAX_COMMAND_LENGTH = 10;
+const int MAX_COMMAND_LENGTH = 100;
 
 static const char *baseOutputName = "output.txt";
 

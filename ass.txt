@@ -2,7 +2,7 @@ PUSH 0
 POP [0]
 PUSH 5
 POP [0]
-JMP continue_0x55873fc445a0
+JMP continue_0x55cd97b96050
 
 func_0:
 PUSH 5
@@ -22,5 +22,13 @@ POP [rax]
 RET
 
 
-continue_0x55873fc445a0:
+continue_0x55cd97b96050:
+PUSH 0
+POP [7]
+PUSH 6
+POP [7]
+PUSH 0
+POP [8]
+PUSH 7
+POP [8]
 CALL func_0

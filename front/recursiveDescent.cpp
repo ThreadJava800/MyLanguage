@@ -48,7 +48,7 @@ Node_t* getG(Node_t** info) {
         R(headNode) = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, headNode);
         headNode = R(headNode);
 
-        // SYNTAX_ERROR(!whatOper(*info, END_LINE_OP), "missing ;!");
+        SYNTAX_ERROR(!whatOper(*info, END_LINE_OP), "missing ;!");
         *info = R(*info);
     }
 
@@ -281,6 +281,8 @@ Node_t* getRet(Node_t** info) {
 Node_t* getCall(Node_t** info) {
     ON_ERROR(!info, "Node is null", nullptr);
 
+    int index = (*info)->value.num;
+    Node_t* varNode = parseVars(info);
     *info = R(*info);
-    return nodeCtor(CALL, {.num = (PREV(*info))->value.num}, nullptr, nullptr, nullptr);
+    return nodeCtor(CALL, {.num = index}, L(varNode), R(varNode), nullptr);
 }

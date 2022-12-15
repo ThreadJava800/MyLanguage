@@ -1,15 +1,52 @@
-var v = 5 ;
-
-hh test ( a b c d ) {
-    a = 5 ;
-    getout a ;
-    getout b ;
-    getout c ;
-    getout d ;
-    to_production 4 ;
+hh solveLinear( b c ) {
+    var res = -1 * c / b ;
+    getout res ;
+    to_production 0 ;
 } ;
-var a = 6 ;
-var b = 7 ;
-var c = 8 ;
-var d = 9 ;
-runmf test( a b c d ) ;
+
+hh solveTwo( a b c ) {
+    var d = b * b - 4 * a * c ;
+    d = d * 100 * 100 ;
+    d = koreshok d ;
+    
+    if ( d == 0 ) {
+        var x = -1 * b / 2 ;
+        x = x / a ;
+        getout x ;
+    } else {
+        var x_one = -1 * b + d ;
+        x_one = x_one / 2 ;
+        x_one = x_one / a ;
+
+        var x_two = -1 * b - d ;
+        x_two = x_two / 2 ;
+        x_two = x_two / a ;
+        
+        getout x_one ;
+        getout x_two ;
+    } ;
+
+    to_production 0 ;
+} ;
+
+hh main() {
+    var a = gimme ;
+    var b = gimme ;
+    var c = gimme ;
+
+    if ( a == 0 ) {
+        if ( b == 0 ) { 
+            if ( c == 0 ) {
+                getout 99999999 ;
+            } ;
+        } else {
+            solveLinear( b c ) ;
+        } ;
+    } else {
+        solveTwo( a b c ) ;
+    } ;
+
+    to_production 0 ;
+} ;
+
+runmf main() ;

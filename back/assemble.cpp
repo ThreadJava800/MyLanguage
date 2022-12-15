@@ -12,7 +12,7 @@ void readTreeFile(const char* inputName, const char* outputName) {
     fileToTree(readFile, &node);
     addPrevs(node);
 
-    graphDump(node);
+    // graphDump(node);
 
     readNode(node, outputFile);
 
@@ -104,6 +104,20 @@ void readOperator(Node_t* node, FILE* outputFile) {
             readNode(L(node), outputFile);
             fprintf(outputFile, "SUB\n");
             break;
+        case DIV_OP:
+            readNode(R(node), outputFile);
+            readNode(L(node), outputFile);
+            fprintf(outputFile, "DIV\n");
+            break;
+        case MUL_OP:
+            readNode(R(node), outputFile);
+            readNode(L(node), outputFile);
+            fprintf(outputFile, "MUL\n");
+            break;
+        case SQRT_OP:
+            readNode(L(node), outputFile);
+            fprintf(outputFile, "SQRT\n");
+            break;
         case ASSIGN_OP:
             readAssign(node, outputFile);
             break;
@@ -111,6 +125,11 @@ void readOperator(Node_t* node, FILE* outputFile) {
             readNode(L(node), outputFile);
             readNode(R(node), outputFile);
             fprintf(outputFile, "JE ");
+            break;
+        case NOT_EQ_OP:
+            readNode(L(node), outputFile);
+            readNode(R(node), outputFile);
+            fprintf(outputFile, "JNE ");
             break;
         case BIGGER_OP:
             readNode(R(node), outputFile);
@@ -231,7 +250,6 @@ void parseCallArgs(Node_t* node, FILE* outputFile, List_t* list) {
     ON_ERROR(!list, "File is null", );
 
     if (IS_VARIABLE(node)) {
-        printf("in");
         char com[MAX_WORD_LENGTH] = "";
         sprintf(com, "PUSH [%d]\n", node->value.num);
         listPushBack(list, strdup(com));

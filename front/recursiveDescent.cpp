@@ -184,6 +184,10 @@ Node_t* getX(Node_t** info) {
     if (IS_WHILE(*info)) return getWhile(info);
     if (IS_RET(*info))   return getRet(info);
     if (IS_CALL(*info))  return getCall(info);
+    if (IS_SQRT(*info))  {
+        *info = R(*info);
+        return nodeCtor(OPERATOR, {.opt = SQRT_OP}, getX(info), nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr), nullptr);
+    }
 
     return nullptr;
 }

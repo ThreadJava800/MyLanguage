@@ -14,5 +14,6 @@ const char* const equCom   = "look";
 const char* const defCom   = "hh";
 const char* const retCom   = "to_production";
 const char* const callCom  = "runmf";
+const char* const sqrtCom  = "koreshok";
 
 #endif

@@ -64,7 +64,10 @@ Node_t* parseOper(FILE* file, Node_t* prev) {
         if (!strcmp(oper, "!"))  return nodeCtor(OPERATOR, {.opt = NOT_OP}, nullptr, nullptr, prev);
         if (!strcmp(oper, "||")) return nodeCtor(OPERATOR, {.opt = OR_OP}, nullptr, nullptr, prev);
         if (!strcmp(oper, "&&")) return nodeCtor(OPERATOR, {.opt = AND_OP}, nullptr, nullptr, prev);
-        if (!strcmp(oper, "("))  return nodeCtor(OPERATOR, {.opt = O_CIR_BR_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "("))  {
+            isLocal = true;
+            return nodeCtor(OPERATOR, {.opt = O_CIR_BR_OP}, nullptr, nullptr, prev);
+        }
         if (!strcmp(oper, ")"))  return nodeCtor(OPERATOR, {.opt = C_CIR_BR_OP}, nullptr, nullptr, prev);
         if (!strcmp(oper, "{"))  {
             isLocal = true;
@@ -72,7 +75,6 @@ Node_t* parseOper(FILE* file, Node_t* prev) {
         }
         if (!strcmp(oper, "}"))  {
             isLocal = false;
-            localAreasCount++;
             return nodeCtor(OPERATOR, {.opt = C_FIG_BR_OP}, nullptr, nullptr, prev);
         }
         if (!strcmp(oper, ";"))  return nodeCtor(OPERATOR, {.opt = END_LINE_OP}, nullptr, nullptr, prev);
@@ -145,7 +147,11 @@ Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars, List_t* funcs, List_t*
         if(!strcmp(command, whileCom)) return nodeCtor(WHILE, {}, nullptr, nullptr, prev);
         if(!strcmp(command, elseCom))  return nodeCtor(ELSE, {}, nullptr, nullptr, prev);
         if(!strcmp(command, varCom))   return newVar(file, vars, prev);
-        if(!strcmp(command, defCom))   return newDef(file, vars, funcs, fParams, prev);
+        if(!strcmp(command, sqrtCom))  return nodeCtor(OPERATOR, {.opt = SQRT_OP}, nullptr, nullptr, prev);
+        if(!strcmp(command, defCom))   {
+            localAreasCount++;
+            return newDef(file, vars, funcs, fParams, prev);
+        }
         if(!strcmp(command, assCom))   return nodeCtor(OPERATOR, {.opt = ASSIGN_OP}, nullptr, nullptr, prev);
         if(!strcmp(command, outCom))   return nodeCtor(OPERATOR, {.opt = OUT_OP}, nullptr, nullptr, prev);
         if(!strcmp(command, inCom))    return nodeCtor(OPERATOR, {.opt = IN_OP}, nullptr, nullptr, prev);
@@ -249,7 +255,6 @@ Node_t* newCall(FILE* file, List_t* funcs, List_t* vars, Node_t* prev) {
 
     bool isFunc = false;
     char command[MAX_WORD_LENGTH] = "";
-    printf("%d\n", isFunc);
     int symbCount = getWord(file, command, &isFunc);
     SYNTAX_ERROR(!symbCount, "Need func name after its call!");
 
@@ -309,8 +314,6 @@ Node_t* checkVariable(char* varName, List_t* vars, List_t* funcs, Node_t* prev, 
         int moves = 0;
         moves += sprintf(varName, "%d_", localAreasCount);
         moves += sprintf((varName + moves), "%s", varCopy);
-
-        printf("%s\n", varName);
     }
 
     for (int i = 0; i < vars->size; i++) {

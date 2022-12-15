@@ -93,6 +93,10 @@ Node_t* getDoNode(Node_t** info);
 
 Node_t* getOut(Node_t** info);
 
+Node_t* getIn(Node_t** info);
+
+Node_t* getWhile(Node_t** info);
+
 // TREE BUILDER
 
 void printTree(const char* outputName, Node_t* tree, List_t* vars);
@@ -116,5 +120,9 @@ void readNode(Node_t* node, FILE* outputFile);
 void readOperator(Node_t* node, FILE* outputFile);
 
 void readIf(Node_t* node, FILE* outputFile);
+
+void readAssign(Node_t* node, FILE* outputFile);
+
+void readWhile(Node_t* node, FILE* outputFile);
 
 #endif

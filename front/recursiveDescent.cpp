@@ -139,14 +139,15 @@ Node_t* getCP(Node_t** info) {
 Node_t* getX(Node_t** info) {
     ON_ERROR(!info, "Node is null", nullptr);
 
-    if (IS_NUM_VAR(*info)) {
+    if (IS_NUM_VAR(*info) || IS_IN(*info)) {
         Node_t* retData = nodeCopy(*info);
         *info = R(*info);
         R(retData) = PREV(retData) = nullptr;
         return retData;
     }
-    if (IS_IF(*info))  return getIF(info);
-    if (IS_OUT(*info)) return getOut(info);
+    if (IS_IF(*info))    return getIF(info);
+    if (IS_OUT(*info))   return getOut(info);
+    if (IS_WHILE(*info)) return getWhile(info);
 
     return nullptr;
 }
@@ -214,4 +215,20 @@ Node_t* getOut(Node_t** info) {
                                             nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr), nullptr);
     addPrevs(retNode);
     return head(retNode);
+}
+
+Node_t* getWhile(Node_t** info) {
+    ON_ERROR(!info, "Node is null", nullptr);
+
+    *info = R(*info);
+    SYNTAX_ERROR(!(IS_O_CR_BR(*info)), "Missing '(' bracket!");
+    *info = R(*info);
+
+    Node_t* caseNode = getE(info);
+    SYNTAX_ERROR(!(IS_C_CR_BR(*info)), "Missing ')' bracket!");
+    *info = R(*info);
+
+    Node_t* toDoNode = getDoNode(info);
+
+    return nodeCtor(WHILE, {}, caseNode, toDoNode, nullptr);
 }

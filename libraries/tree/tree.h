@@ -92,10 +92,12 @@ struct Node_t {
 
 #define IS_NUM_VAR(node) (node)->type == NUMBER || (node)->type == VARIABLE
 #define IS_IF(node) (node)->type == IF
+#define IS_WHILE(node) (node)->type == WHILE
 #define IS_ELSE(node) (node)->type == ELSE
 #define IS_VAR(node) (node)->type == VAR
 
 #define IS_OUT(node) ((node)->type == OPERATOR) && ((node)->value.opt == OUT_OP)
+#define IS_IN(node) ((node)->type == OPERATOR) && ((node)->value.opt == IN_OP)
 #define IS_O_CR_BR(node) ((node)->type == OPERATOR) && ((node)->value.opt == O_CIR_BR_OP)
 #define IS_C_CR_BR(node) ((node)->type == OPERATOR) && ((node)->value.opt == C_CIR_BR_OP)
 #define IS_O_FIG_BR(node) ((node)->type == OPERATOR) && ((node)->value.opt == O_FIG_BR_OP)

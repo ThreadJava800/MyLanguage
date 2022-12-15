@@ -1,10 +1,7 @@
-var a = 5 + 4 ;
-var s = 15 ;
-getout 5 ;
-if (s == 15) {
-    getout 90 ;
-    var z = 1 ;
-    z = 3 ;
+var s = gimme ;
+getout s ;
+while (s > 15) {
+    getout s ;
+    s = s - 1 ;
 } ;
-var x = 5 ;
-getout 11 ;
+getout s ;

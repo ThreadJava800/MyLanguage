@@ -67,6 +67,9 @@ void readNode(Node_t* node, FILE* outputFile) {
         case IF:
             readIf(node, outputFile);
             break;
+        case WHILE:
+            readWhile(node, outputFile);
+            break;
         default:
             printf("%d\n", node->type);
             break;
@@ -83,14 +86,23 @@ void readOperator(Node_t* node, FILE* outputFile) {
             readNode(R(node), outputFile);
             fprintf(outputFile, "ADD\n");
             break;
-        case ASSIGN_OP:
+        case SUB_OP:
             readNode(R(node), outputFile);
-            fprintf(outputFile, "POP [%d]\n", L(node)->value.num);
+            readNode(L(node), outputFile);
+            fprintf(outputFile, "SUB\n");
+            break;
+        case ASSIGN_OP:
+            readAssign(node, outputFile);
             break;
         case EQU_OP:
             readNode(L(node), outputFile);
             readNode(R(node), outputFile);
             fprintf(outputFile, "JE ");
+            break;
+        case BIGGER_OP:
+            readNode(R(node), outputFile);
+            readNode(L(node), outputFile);
+            fprintf(outputFile, "JA ");
             break;
         case OUT_OP:
             readNode(L(node), outputFile);
@@ -115,5 +127,36 @@ void readIf(Node_t* node, FILE* outputFile) {
     readNode(L(node), outputFile);
     fprintf(outputFile, "if_%p\n", node);
     fprintf(outputFile, "\nleave_if_%p:\n", node);
+    if (!R(PREV(node))) fprintf(outputFile, "HLT\n");
+}
+
+void readAssign(Node_t* node, FILE* outputFile) {
+    ON_ERROR(!node, "Node is null", );
+    ON_ERROR(!outputFile, "File is null", );
+
+    if (!(IS_IN(R(node)))) {
+        readNode(R(node), outputFile);
+        fprintf(outputFile, "POP [%d]\n", L(node)->value.num);
+    } else {
+        fprintf(outputFile, "IN\n");
+        fprintf(outputFile, "POP [%d]\n", L(node)->value.num);
+    }
+}
+
+void readWhile(Node_t* node, FILE* outputFile) {
+    ON_ERROR(!node, "Node is null", );
+    ON_ERROR(!outputFile, "File is null", );
+
+    fprintf(outputFile, "JMP while_main_%p\n", node);
+
+    fprintf(outputFile, "\nwhile_%p:\n", node);
+    readNode(R(node), outputFile);
+    fprintf(outputFile, "JMP while_main_%p\n\n", node);
+
+    fprintf(outputFile, "while_main_%p:\n", node);
+    readNode(L(node), outputFile);
+    fprintf(outputFile, "while_%p\n", node);
+    fprintf(outputFile, "JMP leave_while_%p\n\n", node);
+    fprintf(outputFile, "\nleave_while_%p:\n", node);
     if (!R(PREV(node))) fprintf(outputFile, "HLT\n");
 }

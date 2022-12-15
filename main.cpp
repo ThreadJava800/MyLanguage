@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
         _listCtor(&vars);
         Node_t* node = readLangFile(argv[1], &vars);
         Node_t* con  = makeConnections(node);
-        graphDump(con);
+        // graphDump(con);
         printTree("test.o", con, &vars);
         readTreeFile("test.o", "ass.txt");
 

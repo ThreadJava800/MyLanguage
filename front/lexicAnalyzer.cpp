@@ -133,6 +133,7 @@ Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars) {
         if(!strcmp(command, varCom))   return newVar(file, vars, prev);
         if(!strcmp(command, assCom))   return nodeCtor(OPERATOR, {.opt = ASSIGN_OP}, nullptr, nullptr, prev);
         if(!strcmp(command, outCom))   return nodeCtor(OPERATOR, {.opt = OUT_OP}, nullptr, nullptr, prev);
+        if(!strcmp(command, inCom))    return nodeCtor(OPERATOR, {.opt = IN_OP}, nullptr, nullptr, prev);
         if(!strcmp(command, equCom))   return nodeCtor(OPERATOR, {.opt = EQU_OP}, nullptr, nullptr, prev);
 
         return checkVariable(strdup(command), vars, prev);

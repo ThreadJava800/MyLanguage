@@ -153,11 +153,16 @@ void readAssign(Node_t* node, FILE* outputFile) {
     ON_ERROR(!node, "Node is null", );
     ON_ERROR(!outputFile, "File is null", );
 
-    if (!(IS_IN(R(node)))) {
+    if (IS_IN(R(node))) {
+        printf("in");
+        fprintf(outputFile, "IN\n");
+        fprintf(outputFile, "POP [%d]\n", L(node)->value.num);
+    } else if (IS_CALL(R(node))) {
         readNode(R(node), outputFile);
+        fprintf(outputFile, "PUSH [rax]\n");
         fprintf(outputFile, "POP [%d]\n", L(node)->value.num);
     } else {
-        fprintf(outputFile, "IN\n");
+        readNode(R(node), outputFile);
         fprintf(outputFile, "POP [%d]\n", L(node)->value.num);
     }
 }

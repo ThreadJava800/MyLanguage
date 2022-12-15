@@ -1,9 +1,5 @@
-hh test () {
-    var a = 6 ;
-    var b = 7 ;
-    getout 10 ;
-    to_production 0 ;
+hh test ( a b c d ) {
+    var x = 6 ;
+    var z = 7 ;
+    to_production 4 ;
 } ;
-getout 9 ;
-runmf test() ;
-getout 11 ;

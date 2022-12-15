@@ -11,6 +11,7 @@
 #include "syntax.h"
 
 const int MAX_WORD_LENGTH = 4096;
+const int MAX_ARG_COUNT = 128;
 const int MAX_OPER_LENGTH = 4;
 
 #define ON_ERROR(expr, errStr, retVal) {                 \
@@ -39,9 +40,9 @@ const int MAX_OPER_LENGTH = 4;
 
 // SYNTAX ANALYZER
 
-Node_t* readLangFile(const char* fileName, List_t* vars, List_t* funcs);
+Node_t* readLangFile(const char* fileName, List_t* vars, List_t* funcs, List_t* fParams);
 
-Node_t* parseFile(FILE* file, List_t* vars, List_t* funcs);
+Node_t* parseFile(FILE* file, List_t* vars, List_t* funcs, List_t* fParams);
 
 Node_t* parseOper(FILE* file, Node_t* prev);
 
@@ -51,11 +52,13 @@ bool isOperInList(int symb);
 
 Node_t* parseNum(FILE* file, Node_t* prev);
 
-Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars, List_t* funcs);
+Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars, List_t* funcs, List_t* fParams);
 
 Node_t* newVar(FILE* file, List_t* vars, Node_t* prev);
 
-Node_t* newDef(FILE* file, List_t* funcs, Node_t* prev);
+Node_t* newDef(FILE* file, List_t* vars, List_t* funcs, List_t* fParams, Node_t* prev);
+
+int getFuncParams(FILE* file, char* funcName, char* buffer, List_t* vars, Node_t** node);
 
 Node_t* newCall(FILE* file, List_t* funcs, Node_t* prev);
 

@@ -91,7 +91,6 @@ Node_t* parseVars(Node_t** info) {
     Node_t* returnNode = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr);
     Node_t* start = returnNode;
     while (!(IS_C_CR_BR(*info))) {
-        printf("in");
         R(returnNode) = nodeCopy(*info);
         R(R(returnNode)) = nullptr;
         L(returnNode) = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr);

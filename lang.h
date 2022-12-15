@@ -58,9 +58,11 @@ Node_t* newVar(FILE* file, List_t* vars, Node_t* prev);
 
 Node_t* newDef(FILE* file, List_t* vars, List_t* funcs, List_t* fParams, Node_t* prev);
 
-int getFuncParams(FILE* file, char* funcName, char* buffer, List_t* vars, Node_t** node);
+int getFuncParams(FILE* file, char* buffer, List_t* vars, Node_t** node);
 
-Node_t* newCall(FILE* file, List_t* funcs, Node_t* prev);
+Node_t* newCall(FILE* file, List_t* funcs, List_t* vars, Node_t* prev);
+
+void parseCallArgs(FILE* file, List_t* vars, List_t* funcs, Node_t* prev, Node_t** node);
 
 Node_t* checkVariable(char* varName, List_t* vars, List_t* funcs, Node_t* prev, bool isFunc);
 

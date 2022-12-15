@@ -150,7 +150,7 @@ Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars, List_t* funcs, List_t*
         if(!strcmp(command, outCom))   return nodeCtor(OPERATOR, {.opt = OUT_OP}, nullptr, nullptr, prev);
         if(!strcmp(command, inCom))    return nodeCtor(OPERATOR, {.opt = IN_OP}, nullptr, nullptr, prev);
         if(!strcmp(command, retCom))   return nodeCtor(RETURN, {}, nullptr, nullptr, prev);
-        if(!strcmp(command, callCom))  return newCall(file, funcs, prev);
+        if(!strcmp(command, callCom))  return newCall(file, funcs, vars, prev);
         if(!strcmp(command, equCom))   return nodeCtor(OPERATOR, {.opt = EQU_OP}, nullptr, nullptr, prev);
 
         return checkVariable(strdup(command), vars, funcs, prev, isFunc);
@@ -197,7 +197,7 @@ Node_t* newDef(FILE* file, List_t* vars, List_t* funcs, List_t* fParams, Node_t*
     char params[MAX_WORD_LENGTH] = "";
     Node_t* defNode = nodeCtor(DEF, {.num = funcs->size - 1}, nullptr, nullptr, prev);
     Node_t* paramNode = nodeCtor(OPERATOR, {.opt = O_CIR_BR_OP}, nullptr, nullptr, defNode);
-    symbCount = getFuncParams(file, name, params, vars, &paramNode);
+    symbCount = getFuncParams(file, params, vars, &paramNode);
     listPushBack(fParams, strdup(params));
 
     R(paramNode) = nodeCtor(OPERATOR, {.opt = C_CIR_BR_OP}, nullptr, nullptr, paramNode);
@@ -205,7 +205,7 @@ Node_t* newDef(FILE* file, List_t* vars, List_t* funcs, List_t* fParams, Node_t*
     return R(paramNode);
 }
 
-int getFuncParams(FILE* file, char* funcName, char* buffer, List_t* vars, Node_t** node) {
+int getFuncParams(FILE* file, char* buffer, List_t* vars, Node_t** node) {
     ON_ERROR(!file, "File is null", 0);
     ON_ERROR(!buffer, "Buffer null", 0);
     ON_ERROR(!node, "Node is null", 0);
@@ -223,7 +223,6 @@ int getFuncParams(FILE* file, char* funcName, char* buffer, List_t* vars, Node_t
         char paramName[MAX_WORD_LENGTH] = "";
         int symbCount = getWord(file, paramName, &isFunc);
         if (!symbCount) break;
-        // SYNTAX_ERROR(!symbCount, "Func args provided incorrectly!");
 
         char toPush[MAX_WORD_LENGTH] = "";
         int readNums = sprintf(toPush, "%d_", localAreasCount);
@@ -244,7 +243,7 @@ int getFuncParams(FILE* file, char* funcName, char* buffer, List_t* vars, Node_t
     return paramCount;
 }
 
-Node_t* newCall(FILE* file, List_t* funcs, Node_t* prev) {
+Node_t* newCall(FILE* file, List_t* funcs, List_t* vars, Node_t* prev) {
     ON_ERROR(!file, "File is null", nullptr);
     ON_ERROR(!funcs, "List is null", nullptr);
 
@@ -253,10 +252,37 @@ Node_t* newCall(FILE* file, List_t* funcs, Node_t* prev) {
     printf("%d\n", isFunc);
     int symbCount = getWord(file, command, &isFunc);
     SYNTAX_ERROR(!symbCount, "Need func name after its call!");
-    Node_t* node = checkVariable(strdup(command), funcs, funcs, prev, isFunc);
+
+    Node_t* node = checkVariable(strdup(command), funcs, funcs, prev, true);
+    R(node) = nodeCtor(OPERATOR, {.num = O_CIR_BR_OP}, nullptr, nullptr, node);
+    node = R(node);
+    parseCallArgs(file, vars, funcs, node, &node);
+    R(node) = nodeCtor(OPERATOR, {.num = C_CIR_BR_OP}, nullptr, nullptr, node);
 
     SYNTAX_ERROR(!isFunc, "Func name are same with var!: %s", command);
-    return node;
+    return R(node);
+}
+
+void parseCallArgs(FILE* file, List_t* vars, List_t* funcs, Node_t* prev, Node_t** node) {
+    ON_ERROR(!file, "File is null", );
+    ON_ERROR(!node, "Node is null", );
+
+    int symb = fgetc(file);
+    SYNTAX_ERROR(symb != '(', "Func params must be in brackets!");
+    fgetc(file);
+
+    bool isFunc = false;
+    int paramCount = 0;
+    while (!isFunc) {
+        char paramName[MAX_WORD_LENGTH] = "";
+        int symbCount = getWord(file, paramName, &isFunc);
+        if (!symbCount) break;
+
+        R(*node) = checkVariable(paramName, vars, funcs, *node, false);
+        *node = R(*node);
+
+        paramCount++;
+    }
 }
 
 Node_t* checkVariable(char* varName, List_t* vars, List_t* funcs, Node_t* prev, bool isFunc) {

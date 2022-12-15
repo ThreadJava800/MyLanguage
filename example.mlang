@@ -7,3 +7,5 @@ hh test ( a b c d ) {
     var z = 7 ;
     to_production 4 ;
 } ;
+var b = 6 ;
+runmf test( v b ) ;

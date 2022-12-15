@@ -38,7 +38,7 @@ void printElemT(FILE *file, NodeType type, NodeValue value) {
             fprintf(file, "DEF %d", value.num);
             break;
         case CALL:
-            fprintf(file, "CALL");
+            fprintf(file, "CALL %d", value.num);
             break;
         case RETURN:
             fprintf(file, "RETURN");

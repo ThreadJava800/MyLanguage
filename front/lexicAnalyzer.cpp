@@ -139,6 +139,7 @@ Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars, List_t* funcs) {
         if(!strcmp(command, outCom))   return nodeCtor(OPERATOR, {.opt = OUT_OP}, nullptr, nullptr, prev);
         if(!strcmp(command, inCom))    return nodeCtor(OPERATOR, {.opt = IN_OP}, nullptr, nullptr, prev);
         if(!strcmp(command, retCom))   return nodeCtor(RETURN, {}, nullptr, nullptr, prev);
+        if(!strcmp(command, callCom))  return newCall(file, funcs, prev);
         if(!strcmp(command, equCom))   return nodeCtor(OPERATOR, {.opt = EQU_OP}, nullptr, nullptr, prev);
 
         return checkVariable(strdup(command), vars, funcs, prev, isFunc);
@@ -181,6 +182,21 @@ Node_t* newDef(FILE* file, List_t* funcs, Node_t* prev) {
     PREV(rightNode) = returnNode;
     
     return rightNode;
+}
+
+Node_t* newCall(FILE* file, List_t* funcs, Node_t* prev) {
+    ON_ERROR(!file, "File is null", nullptr);
+    ON_ERROR(!funcs, "List is null", nullptr);
+
+    bool isFunc = false;
+    char command[MAX_WORD_LENGTH] = "";
+    printf("%d\n", isFunc);
+    int symbCount = getWord(file, command, &isFunc);
+    SYNTAX_ERROR(!symbCount, "Need func name after its call!");
+    Node_t* node = checkVariable(strdup(command), funcs, funcs, prev, isFunc);
+
+    SYNTAX_ERROR(!isFunc, "Func name are same with var!: %s", command);
+    return node;
 }
 
 Node_t* checkVariable(char* varName, List_t* vars, List_t* funcs, Node_t* prev, bool isFunc) {
@@ -231,7 +247,7 @@ int getWord(FILE* file, char* buffer, bool* isFunc) {
 
     int symbCount = 0;
 
-    while (!isspace(symb) && symb != EOF && symb != '(' && symb != ')') {
+    while (!isspace(symb) && symb != EOF && symb != '(') {
         SYNTAX_ERROR(!(isalnum(symb) || symb == '_'), "Incorrect var name! %c", symb);
 
         *buffer = (char) symb;
@@ -241,7 +257,7 @@ int getWord(FILE* file, char* buffer, bool* isFunc) {
         symb = fgetc(file);
     }
     ungetc(symb, file);
-
+    SKIP_SPACES();
     if (isFunc) *isFunc = (symb == '(' || symb == ')');
 
     return symbCount;

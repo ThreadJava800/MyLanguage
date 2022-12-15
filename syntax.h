@@ -13,5 +13,6 @@ const char* const inCom    = "gimme";
 const char* const equCom   = "look";
 const char* const defCom   = "hh";
 const char* const retCom   = "to_production";
+const char* const callCom  = "runmf";
 
 #endif

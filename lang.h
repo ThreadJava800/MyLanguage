@@ -57,6 +57,8 @@ Node_t* newVar(FILE* file, List_t* vars, Node_t* prev);
 
 Node_t* newDef(FILE* file, List_t* funcs, Node_t* prev);
 
+Node_t* newCall(FILE* file, List_t* funcs, Node_t* prev);
+
 Node_t* checkVariable(char* varName, List_t* vars, List_t* funcs, Node_t* prev, bool isFunc);
 
 int getWord(FILE* file, char* buffer, bool* isFunc);
@@ -102,6 +104,8 @@ Node_t* getIn(Node_t** info);
 Node_t* getWhile(Node_t** info);
 
 Node_t* getRet(Node_t** info);
+
+Node_t* getCall(Node_t** info);
 
 // TREE BUILDER
 

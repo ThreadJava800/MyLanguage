@@ -93,6 +93,7 @@ struct Node_t {
 #define IS_NUM_VAR(node) (node)->type == NUMBER || (node)->type == VARIABLE
 #define IS_IF(node) (node)->type == IF
 #define IS_RET(node) (node)->type == RETURN
+#define IS_CALL(node) (node)->type == CALL
 #define IS_WHILE(node) (node)->type == WHILE
 #define IS_ELSE(node) (node)->type == ELSE
 #define IS_VAR(node) (node)->type == VAR

@@ -1,4 +1,4 @@
-JMP continue_0x55fe7f7f4310
+JMP continue_0x5618a6f4f180
 
 func_0:
 PUSH 0
@@ -9,11 +9,16 @@ PUSH 0
 POP [1]
 PUSH 7
 POP [1]
+PUSH 10
+OUT
 PUSH 0
 POP [rax]
 RET
 
 
-continue_0x55fe7f7f4310:
-PUSH 10
+continue_0x5618a6f4f180:
+PUSH 9
+OUT
+CALL func_0
+PUSH 11
 OUT

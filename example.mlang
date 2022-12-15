@@ -1,6 +1,9 @@
 hh test () {
     var a = 6 ;
     var b = 7 ;
+    getout 10 ;
     to_production 0 ;
 } ;
-getout 10 ;
+getout 9 ;
+runmf test() ;
+getout 11 ;

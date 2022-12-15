@@ -162,6 +162,7 @@ Node_t* getX(Node_t** info) {
     if (IS_OUT(*info))   return getOut(info);
     if (IS_WHILE(*info)) return getWhile(info);
     if (IS_RET(*info))   return getRet(info);
+    if (IS_CALL(*info))  return getCall(info);
 
     return nullptr;
 }
@@ -254,4 +255,11 @@ Node_t* getRet(Node_t** info) {
     Node_t* returnNode = getX(info);
     Node_t* fict = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr);
     return nodeCtor(RETURN, {}, returnNode, fict, nullptr);
+}
+
+Node_t* getCall(Node_t** info) {
+    ON_ERROR(!info, "Node is null", nullptr);
+
+    *info = R(*info);
+    return nodeCtor(CALL, {.num = (PREV(*info))->value.num}, nullptr, nullptr, nullptr);
 }

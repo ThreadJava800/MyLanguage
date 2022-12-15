@@ -80,8 +80,11 @@ void readNode(Node_t* node, FILE* outputFile) {
             fprintf(outputFile, "POP [rax]\n");
             fprintf(outputFile, "RET");
             break;
+        case CALL:
+            fprintf(outputFile, "CALL func_%d\n", node->value.num);
+            break;
         default:
-            printf("%d\n", node->type);
+            SYNTAX_ERROR(true, "Unknown type: %d", node->type);
             break;
     }
 }

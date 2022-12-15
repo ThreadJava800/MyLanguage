@@ -39,9 +39,9 @@ const int MAX_OPER_LENGTH = 4;
 
 // SYNTAX ANALYZER
 
-Node_t* readLangFile(const char* fileName, List_t* vars);
+Node_t* readLangFile(const char* fileName, List_t* vars, List_t* funcs);
 
-Node_t* parseFile(FILE* file, List_t* vars);
+Node_t* parseFile(FILE* file, List_t* vars, List_t* funcs);
 
 Node_t* parseOper(FILE* file, Node_t* prev);
 
@@ -51,13 +51,15 @@ bool isOperInList(int symb);
 
 Node_t* parseNum(FILE* file, Node_t* prev);
 
-Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars);
+Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars, List_t* funcs);
 
 Node_t* newVar(FILE* file, List_t* vars, Node_t* prev);
 
-Node_t* checkVariable(char* varName, List_t* vars, Node_t* prev);
+Node_t* newDef(FILE* file, List_t* funcs, Node_t* prev);
 
-int getWord(FILE* file, char* buffer);
+Node_t* checkVariable(char* varName, List_t* vars, List_t* funcs, Node_t* prev, bool isFunc);
+
+int getWord(FILE* file, char* buffer, bool* isFunc);
 
 Node_t* headStart(Node_t* end);
 

@@ -2,23 +2,23 @@ PUSH 0
 POP [0]
 IN
 POP [0]
-JMP if_main_0x562f23f1dfe0
+JMP if_main_0x55fdb4eb5fe0
 
-if_0x562f23f1dfe0:
+if_0x55fdb4eb5fe0:
 PUSH 90
 OUT
-JMP leave_if_0x562f23f1dfe0
+JMP leave_if_0x55fdb4eb5fe0
 
 
-else_0x562f23f1dfe0:
-PUSH 10
-OUT
-JMP leave_if_0x562f23f1dfe0
+else_0x55fdb4eb5fe0:
+JMP leave_if_0x55fdb4eb5fe0
 
-if_main_0x562f23f1dfe0:
+if_main_0x55fdb4eb5fe0:
 PUSH 15
 PUSH [0]
-JA if_0x562f23f1dfe0
-JMP else_0x562f23f1dfe0
+JA if_0x55fdb4eb5fe0
+JMP else_0x55fdb4eb5fe0
 
-leave_if_0x562f23f1dfe0:
+leave_if_0x55fdb4eb5fe0:
+PUSH 1
+OUT

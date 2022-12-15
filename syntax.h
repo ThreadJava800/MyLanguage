@@ -11,5 +11,7 @@ const char* const assCom   = "now";
 const char* const outCom   = "getout";
 const char* const inCom    = "gimme";
 const char* const equCom   = "look";
+const char* const defCom   = "hh";
+const char* const retCom   = "to_production";
 
 #endif

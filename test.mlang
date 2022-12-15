@@ -1,6 +1,5 @@
 var s = gimme ;
 if (s > 15) {
     getout 90 ;
-} else {
-    getout 10 ;
 } ;
+getout 1 ;

@@ -1,12 +1,5 @@
-var a = b ;
-x = 2 ;
-if (x == 2) {
-    a = b ;
-    x = y + 2 ;
-    if (x == 1) {
-        a = 5 ;
-    } ;
-} else {
-    print = 132 ;
+hh test () {
+    to_production 0 ;
 } ;
-y = x + 2 / 5 ;
+
+test() ;

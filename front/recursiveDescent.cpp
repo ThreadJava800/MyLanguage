@@ -252,5 +252,6 @@ Node_t* getRet(Node_t** info) {
 
     *info = R(*info);
     Node_t* returnNode = getX(info);
-    return nodeCtor(RETURN, {}, returnNode, nullptr, nullptr);
+    Node_t* fict = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr);
+    return nodeCtor(RETURN, {}, returnNode, fict, nullptr);
 }

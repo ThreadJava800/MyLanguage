@@ -3,3 +3,4 @@ hh test () {
     var b = 7 ;
     to_production 0 ;
 } ;
+getout 10 ;

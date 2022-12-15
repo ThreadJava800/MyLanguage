@@ -181,7 +181,11 @@ void readFunc(Node_t* node, FILE* outputFile) {
     ON_ERROR(!node, "Node is null", );
     ON_ERROR(!outputFile, "File is null", );
 
-    fprintf(outputFile, "func_%d:\n", node->value.num);
+    fprintf(outputFile, "JMP continue_%p\n", node);
+
+    fprintf(outputFile, "\nfunc_%d:\n", node->value.num);
     readNode(R(node), outputFile);
     fprintf(outputFile, "\n\n");
+
+    fprintf(outputFile, "\ncontinue_%p:\n", node);
 }

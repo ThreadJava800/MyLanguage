@@ -1,7 +1,6 @@
 var s = gimme ;
-getout s ;
-while (s > 15) {
-    getout s ;
-    s = s - 1 ;
+if (s > 15) {
+    getout 90 ;
+} else {
+    getout 10 ;
 } ;
-getout s ;

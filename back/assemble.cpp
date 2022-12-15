@@ -123,9 +123,15 @@ void readIf(Node_t* node, FILE* outputFile) {
     readNode(L(R(node)), outputFile);
     fprintf(outputFile, "JMP leave_if_%p\n\n", node);
 
+    fprintf(outputFile, "\nelse_%p:\n", node);
+    readNode(R(R(node)), outputFile);
+    fprintf(outputFile, "JMP leave_if_%p\n\n", node);
+
     fprintf(outputFile, "if_main_%p:\n", node);
     readNode(L(node), outputFile);
     fprintf(outputFile, "if_%p\n", node);
+    fprintf(outputFile, "JMP else_%p\n", node);
+
     fprintf(outputFile, "\nleave_if_%p:\n", node);
     if (!R(PREV(node))) fprintf(outputFile, "HLT\n");
 }

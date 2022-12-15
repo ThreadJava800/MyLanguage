@@ -1,5 +1,8 @@
 #include "../lang.h"
 
+int localAreasCount = 0;
+bool isLocal = false;
+
 Node_t* readLangFile(const char* fileName, List_t* vars, List_t* funcs, List_t* fParams) {
     ON_ERROR(!fileName, "File name was null", nullptr);
     ON_ERROR(!vars, "Var list is null", nullptr);
@@ -63,8 +66,15 @@ Node_t* parseOper(FILE* file, Node_t* prev) {
         if (!strcmp(oper, "&&")) return nodeCtor(OPERATOR, {.opt = AND_OP}, nullptr, nullptr, prev);
         if (!strcmp(oper, "("))  return nodeCtor(OPERATOR, {.opt = O_CIR_BR_OP}, nullptr, nullptr, prev);
         if (!strcmp(oper, ")"))  return nodeCtor(OPERATOR, {.opt = C_CIR_BR_OP}, nullptr, nullptr, prev);
-        if (!strcmp(oper, "{"))  return nodeCtor(OPERATOR, {.opt = O_FIG_BR_OP}, nullptr, nullptr, prev);
-        if (!strcmp(oper, "}"))  return nodeCtor(OPERATOR, {.opt = C_FIG_BR_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, "{"))  {
+            isLocal = true;
+            return nodeCtor(OPERATOR, {.opt = O_FIG_BR_OP}, nullptr, nullptr, prev);
+        }
+        if (!strcmp(oper, "}"))  {
+            isLocal = false;
+            localAreasCount++;
+            return nodeCtor(OPERATOR, {.opt = C_FIG_BR_OP}, nullptr, nullptr, prev);
+        }
         if (!strcmp(oper, ";"))  return nodeCtor(OPERATOR, {.opt = END_LINE_OP}, nullptr, nullptr, prev);
     }
 
@@ -143,7 +153,6 @@ Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars, List_t* funcs, List_t*
         if(!strcmp(command, callCom))  return newCall(file, funcs, prev);
         if(!strcmp(command, equCom))   return nodeCtor(OPERATOR, {.opt = EQU_OP}, nullptr, nullptr, prev);
 
-        printf("%s\n", command);
         return checkVariable(strdup(command), vars, funcs, prev, isFunc);
     }
 
@@ -159,6 +168,12 @@ Node_t* newVar(FILE* file, List_t* vars, Node_t* prev) {
     char command[MAX_WORD_LENGTH] = "";
     int symbCount = getWord(file, command, nullptr);
     SYNTAX_ERROR(!symbCount, "Need variable name after var declaration!");
+    char* varCpy = strdup(command);
+    if (isLocal) {
+        int moves = 0;
+        moves += sprintf(command, "%d_", localAreasCount);
+        moves += sprintf(command + moves, "%s", varCpy);
+    }
     listPushBack(vars, strdup(command));
 
     Node_t* rightNode  = nodeCtor(VARIABLE, {.num = (int) vars->size - 1}, nullptr, nullptr, nullptr);
@@ -211,9 +226,9 @@ int getFuncParams(FILE* file, char* funcName, char* buffer, List_t* vars, Node_t
         // SYNTAX_ERROR(!symbCount, "Func args provided incorrectly!");
 
         char toPush[MAX_WORD_LENGTH] = "";
-        int readNums = sprintf(toPush, "%s_", funcName);
+        int readNums = sprintf(toPush, "%d_", localAreasCount);
         sprintf(&(toPush[readNums]), "%s", paramName);
-        listPushBack(vars, toPush);
+        listPushBack(vars, strdup(toPush));
         R(*node) = nodeCtor(VARIABLE, {.num = vars->size - 1}, nullptr, nullptr, *node);
         *node = R(*node);
 
@@ -263,6 +278,15 @@ Node_t* checkVariable(char* varName, List_t* vars, List_t* funcs, Node_t* prev, 
         return nodeCtor(CALL, {.num = varIndex}, nullptr, nullptr, prev);
     }
 
+    if (isLocal) {
+        char* varCopy = strdup(varName);
+        int moves = 0;
+        moves += sprintf(varName, "%d_", localAreasCount);
+        moves += sprintf((varName + moves), "%s", varCopy);
+
+        printf("%s\n", varName);
+    }
+
     for (int i = 0; i < vars->size; i++) {
         ListElement_t* value = logicToPhysics(vars, i);
         if (!strcmp(value->value, varName)) {
@@ -271,6 +295,19 @@ Node_t* checkVariable(char* varName, List_t* vars, List_t* funcs, Node_t* prev, 
             break;
         }
     }
+
+    if (!isMet) {
+        char* global = varName + 2;
+        for (int i = 0; i < vars->size; i++) {
+            ListElement_t* value = logicToPhysics(vars, i);
+            if (!strcmp(value->value, global)) {
+                varIndex = i;
+                isMet = true;
+                break;
+            }
+        }
+    }
+
     SYNTAX_ERROR(!isMet, "Unknown variable name: %s", varName);
 
     return nodeCtor(VARIABLE, {.num = varIndex}, nullptr, nullptr, prev);

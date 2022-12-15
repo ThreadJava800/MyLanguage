@@ -14,20 +14,20 @@ int main(int argc, char *argv[]) {
         //     printf("%s\n", elem->value);
         // }
 
-        // printf("VARS: %ld\n", vars.size);
-        // for (int i = 0; i < vars.size; i++) {
-        //     ListElement_t* elem = logicToPhysics(&vars, i);
-        //     printf("%s\n", elem->value);
-        // }
-
-        printf("FPARAMS: %ld\n", fParams.size);
-        for (int i = 0; i < fParams.size; i++) {
-            ListElement_t* elem = logicToPhysics(&fParams, i);
+        printf("VARS: %ld\n", vars.size);
+        for (int i = 0; i < vars.size; i++) {
+            ListElement_t* elem = logicToPhysics(&vars, i);
             printf("%s\n", elem->value);
         }
 
-        Node_t* con  = makeConnections(node);
-        graphDump(con);
+        // printf("FPARAMS: %ld\n", fParams.size);
+        // for (int i = 0; i < fParams.size; i++) {
+        //     ListElement_t* elem = logicToPhysics(&fParams, i);
+        //     printf("%s\n", elem->value);
+        // }
+
+        // Node_t* con  = makeConnections(node);
+        graphDump(node);
         // printTree("test.o", con, &vars);
         // readTreeFile("test.o", "ass.txt");
 

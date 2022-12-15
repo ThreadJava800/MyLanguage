@@ -103,4 +103,16 @@ void printHeader(FILE* file, List_t* vars);
 
 void printNode(FILE* file, Node_t* node, int tabCount = 0);
 
+// BACK_END
+
+void readTreeFile(const char* inputName, const char* outputName);
+
+void fileToTree(FILE* inputFile, Node_t** node);
+
+void readNode(Node_t* node, FILE* outputFile);
+
+void readOperator(Node_t* node, FILE* outputFile);
+
+void readIf(Node_t* node, FILE* outputFile);
+
 #endif

@@ -13,7 +13,7 @@ CFLAGS  = -D _DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextra -Weffc++ -Waggressive-lo
 
 
 SOURCES=libraries/LinkedList/list.h libraries/LinkedList/list.cpp libraries/tree/tree.h libraries/tree/tree.cpp lang.h \
-front/lexicAnalyzer.cpp front/recursiveDescent.cpp front/treeBuilder.cpp libraries/Stack/stack.h libraries/Stack/errorHandler.cpp \
+front/lexicAnalyzer.cpp front/recursiveDescent.cpp front/treeBuilder.cpp back/assemble.cpp libraries/Stack/stack.h libraries/Stack/errorHandler.cpp \
 libraries/Stack/stack.cpp libraries/MStringParser/onegin.h libraries/MStringParser/onegin.cpp \
 libraries/Processor/assembler/assembler.h libraries/Processor/assembler/assembler.cpp main.cpp
 

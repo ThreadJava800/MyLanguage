@@ -8,6 +8,7 @@ int main(int argc, char *argv[]) {
         Node_t* con  = makeConnections(node);
         graphDump(con);
         printTree("test.o", con, &vars);
+        readTreeFile("test.o", "ass.txt");
 
         nodeDtor(con);
     } else {

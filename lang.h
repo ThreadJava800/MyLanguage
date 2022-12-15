@@ -84,6 +84,8 @@ Node_t* getVar(Node_t** info);
 
 Node_t* getDef(Node_t** info);
 
+Node_t* parseVars(Node_t** info);
+
 Node_t* getE(Node_t** info);
 
 Node_t* getT(Node_t** info);

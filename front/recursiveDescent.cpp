@@ -72,13 +72,35 @@ Node_t* getDef(Node_t** info) {
 
     if (!(IS_DEF(*info))) return getE(info);
 
-    Node_t* varNode = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr);
     int funIndex = (*info)->value.num;
+    Node_t* varNode = parseVars(info);
     *info = R(*info);
-    *info = R(*info);
+
     Node_t* assNode = getDoNode(info);
 
     return nodeCtor(DEF, {.num = funIndex}, varNode, assNode, nullptr);
+}
+
+Node_t* parseVars(Node_t** info) {
+    ON_ERROR(!info, "Node is null", nullptr);
+
+    *info = R(*info);
+    SYNTAX_ERROR(!(IS_O_CR_BR(*info)), "Params provided incorrectly");
+    *info = R(*info);
+
+    Node_t* returnNode = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr);
+    Node_t* start = returnNode;
+    while (!(IS_C_CR_BR(*info))) {
+        printf("in");
+        R(returnNode) = nodeCopy(*info);
+        R(R(returnNode)) = nullptr;
+        L(returnNode) = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr);
+        returnNode = L(returnNode);
+        *info = R(*info);
+    }
+    addPrevs(start);
+
+    return head(start);
 }
 
 Node_t* getE(Node_t** info) {

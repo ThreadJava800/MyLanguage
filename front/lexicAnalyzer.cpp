@@ -180,13 +180,14 @@ Node_t* newDef(FILE* file, List_t* vars, List_t* funcs, List_t* fParams, Node_t*
     listPushBack(funcs, strdup(name));
 
     char params[MAX_WORD_LENGTH] = "";
-    Node_t* paramNode = nodeCtor(OPERATOR, {.opt = O_FIG_BR_OP}, nullptr, nullptr, prev);
+    Node_t* defNode = nodeCtor(DEF, {.num = funcs->size - 1}, nullptr, nullptr, prev);
+    Node_t* paramNode = nodeCtor(OPERATOR, {.opt = O_CIR_BR_OP}, nullptr, nullptr, defNode);
     symbCount = getFuncParams(file, name, params, vars, &paramNode);
     listPushBack(fParams, strdup(params));
 
-    R(paramNode) = nodeCtor(OPERATOR, {.opt = C_FIG_BR_OP}, nullptr, nullptr, paramNode);
+    R(paramNode) = nodeCtor(OPERATOR, {.opt = C_CIR_BR_OP}, nullptr, nullptr, paramNode);
     
-    return paramNode;
+    return R(paramNode);
 }
 
 int getFuncParams(FILE* file, char* funcName, char* buffer, List_t* vars, Node_t** node) {

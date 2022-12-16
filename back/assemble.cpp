@@ -90,6 +90,12 @@ void readNode(Node_t* root, Node_t* node, FILE* outputFile) {
         case RETURN:
             readNode(root, L(node), outputFile);
             fprintf(outputFile, "POP [rax]\n");
+
+            // fprintf(outputFile, "PUSH rcx\n");
+            // fprintf(outputFile, "PUSH %d\n", getFuncArgCnt);
+            // fprintf(outputFile, "SUB\n", getFuncArgCnt);
+            // fprintf(outputFile, "POP rcx\n", getFuncArgCnt);
+
             fprintf(outputFile, "RET\n");
             break;
         case CALL:
@@ -199,7 +205,7 @@ void readAssign(Node_t* root, Node_t* node, FILE* outputFile) {
         fprintf(outputFile, "POP [%d]\n", L(node)->value.num);
     } else if (IS_CALL(R(node))) {
         readNode(root, R(node), outputFile);
-        fprintf(outputFile, "PUSH [rax]\n");
+        fprintf(outputFile, "PUSH rax\n");
         fprintf(outputFile, "POP [%d]\n", L(node)->value.num);
     } else {
         readNode(root, R(node), outputFile);
@@ -232,23 +238,31 @@ void readFunc(Node_t* root, Node_t* node, FILE* outputFile) {
     fprintf(outputFile, "JMP continue_%p\n", node);
 
     fprintf(outputFile, "\nfunc_%d:\n", node->value.num);
-    parseFuncArgs(L(node), outputFile);
+
+    int argCnt = getFuncArgCnt(node);
+    parseFuncArgs(L(node), outputFile, argCnt, argCnt);
     readNode(root, R(node), outputFile);
     fprintf(outputFile, "\n\n");
 
     fprintf(outputFile, "\ncontinue_%p:\n", node);
 }
 
-void parseFuncArgs(Node_t* node, FILE* outputFile) {
+void parseFuncArgs(Node_t* node, FILE* outputFile, int argCount, int parsedCount) {
     ON_ERROR(!node, "Node is null", );
     ON_ERROR(!outputFile, "File is null", );
 
     if (IS_VARIABLE(node)) {
+        // fprintf(outputFile, "PUSH rbx\n");
+        // fprintf(outputFile, "PUSH %d\n", parsedCount);
+        // fprintf(outputFile, "PUSH %d\n", argCount);
+        // fprintf(outputFile, "SUB %d\n", argCount);
+        // fprintf(outputFile, "ADD %d\n", argCount);
+        // fprintf(outputFile, "POP rcx\n");
         fprintf(outputFile, "POP [%d]\n", node->value.num);
     }
 
-    if (R(node)) parseFuncArgs(R(node), outputFile);
-    if (L(node)) parseFuncArgs(L(node), outputFile);
+    if (R(node)) parseFuncArgs(R(node), outputFile, argCount, parsedCount);
+    if (L(node)) parseFuncArgs(L(node), outputFile, argCount, parsedCount);
 }
 
 void readCall(Node_t* root, Node_t* node, FILE* outputFile) {
@@ -258,15 +272,18 @@ void readCall(Node_t* root, Node_t* node, FILE* outputFile) {
     List_t list = {};
     _listCtor(&list);
 
-    Node_t* func = nullptr;
-    getNodeByFuncId(root, &func, node->value.num);
-    node->argCnt = getFuncArgCnt(node);
-
     parseCallArgs(root, node, outputFile, &list);
     for (int i = list.size - 1; i >= 0; i--) {
         ListElement_t* elem = logicToPhysics(&list, i);
         fprintf(outputFile, "%s", elem->value);
     }
+
+    // move pointer
+    fprintf(outputFile, "PUSH rcx\n");
+    fprintf(outputFile, "PUSH %d\n", getFuncArgCnt);
+    fprintf(outputFile, "ADD\n", getFuncArgCnt);
+    fprintf(outputFile, "POP rcx\n", getFuncArgCnt);
+
     fprintf(outputFile, "CALL func_%d\n", node->value.num);
 }
 

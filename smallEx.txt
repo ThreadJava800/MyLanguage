@@ -1,0 +1,13 @@
+var hello = 15 ;
+
+hh test( a ) {
+    getout a ;
+    var b = 7  ;
+    getout b ;
+    to_production 0 ;
+} ;
+
+var b = 16 ;
+getout b ;
+
+runmf test( hello ) ;

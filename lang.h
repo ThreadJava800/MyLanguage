@@ -146,7 +146,7 @@ void readWhile(Node_t* root, Node_t* node, FILE* outputFile);
 
 void readFunc(Node_t* root, Node_t* node, FILE* outputFile);
 
-void parseFuncArgs(Node_t* node, FILE* outputFile);
+void parseFuncArgs(Node_t* node, FILE* outputFile, int argCount, int parsedCount);
 
 void readCall(Node_t* root, Node_t* node, FILE* outputFile);
 

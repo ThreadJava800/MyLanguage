@@ -14,16 +14,20 @@ hh solveTwo( a b c ) {
         x = x / a ;
         getout x ;
     } else {
-        var x_one = -1 * b + d ;
-        x_one = x_one / 2 ;
-        x_one = x_one / a ;
+        if ( d < 0 ) {
+            to_production 0 ;
+        } else {
+            var x_one = -1 * b + d ;
+            x_one = x_one / 2 ;
+            x_one = x_one / a ;
 
-        var x_two = -1 * b - d ;
-        x_two = x_two / 2 ;
-        x_two = x_two / a ;
-        
-        getout x_one ;
-        getout x_two ;
+            var x_two = -1 * b - d ;
+            x_two = x_two / 2 ;
+            x_two = x_two / a ;
+            
+            getout x_one ;
+            getout x_two ;
+        } ;
     } ;
 
     to_production 0 ;

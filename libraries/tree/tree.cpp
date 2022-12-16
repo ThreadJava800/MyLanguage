@@ -41,7 +41,7 @@ void printElemT(FILE *file, NodeType type, NodeValue value) {
             fprintf(file, "CALL %d", value.num);
             break;
         case RETURN:
-            fprintf(file, "RETURN");
+            fprintf(file, "RETURN %d", value.num);
             break;
         case NODET_DEFAULT:
         default:

@@ -72,6 +72,7 @@ void printElemT(FILE *file, NodeType type, NodeValue value);
 struct Node_t {
     NodeType type  = defaultValue;
     NodeValue value;
+    int argCnt = 0;
 
     Node_t *left  = nullptr;
     Node_t *right = nullptr;

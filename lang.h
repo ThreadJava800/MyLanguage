@@ -116,9 +116,9 @@ Node_t* getCall(Node_t** info);
 
 // TREE BUILDER
 
-void printTree(const char* outputName, Node_t* tree, List_t* vars);
+void printTree(const char* outputName, Node_t* tree, List_t* vars, List_t* funcs, List_t* args);
 
-void printHeader(FILE* file, List_t* vars);
+void printHeader(FILE* file, List_t* vars, List_t* funcs, List_t* args);
 
 #define ADD_TABS() {                                        \
     for (int i = 0; i < tabCount; i++) fprintf(file, "\t");  \
@@ -130,24 +130,30 @@ void printNode(FILE* file, Node_t* node, int tabCount = 0);
 
 void readTreeFile(const char* inputName, const char* outputName);
 
+void readHeader(FILE* inputFile, FILE* outputFile);
+
 void fileToTree(FILE* inputFile, Node_t** node);
 
-void readNode(Node_t* node, FILE* outputFile);
+void readNode(Node_t* root, Node_t* node, FILE* outputFile);
 
-void readOperator(Node_t* node, FILE* outputFile);
+void readOperator(Node_t* root, Node_t* node, FILE* outputFile);
 
-void readIf(Node_t* node, FILE* outputFile);
+void readIf(Node_t* root, Node_t* node, FILE* outputFile);
 
-void readAssign(Node_t* node, FILE* outputFile);
+void readAssign(Node_t* root, Node_t* node, FILE* outputFile);
 
-void readWhile(Node_t* node, FILE* outputFile);
+void readWhile(Node_t* root, Node_t* node, FILE* outputFile);
 
-void readFunc(Node_t* node, FILE* outputFile);
+void readFunc(Node_t* root, Node_t* node, FILE* outputFile);
 
 void parseFuncArgs(Node_t* node, FILE* outputFile);
 
-void readCall(Node_t* node, FILE* outputFile);
+void readCall(Node_t* root, Node_t* node, FILE* outputFile);
 
-void parseCallArgs(Node_t* node, FILE* outputFile, List_t* list);
+void parseCallArgs(Node_t* root, Node_t* node, FILE* outputFile, List_t* list);
+
+int getFuncArgCnt(Node_t* root);
+
+void getNodeByFuncId(Node_t* root, Node_t** cur, int id);
 
 #endif

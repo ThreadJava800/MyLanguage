@@ -1,6 +1,6 @@
 #include "../lang.h"
 
-void printTree(const char* outputName, Node_t* tree, List_t* vars) {
+void printTree(const char* outputName, Node_t* tree, List_t* vars, List_t* funcs, List_t* args) {
     ON_ERROR(!outputName, "Name is not provided", );
     ON_ERROR(!tree, "Tree is null", );
     ON_ERROR(!vars, "List is null", )
@@ -8,12 +8,12 @@ void printTree(const char* outputName, Node_t* tree, List_t* vars) {
     FILE* outputFile = fopen(outputName, "w");
     ON_ERROR(!outputFile, "Error opening file!", );
 
-    printHeader(outputFile, vars);
+    printHeader(outputFile, vars, funcs, args);
     printNode(outputFile, tree);
     fclose(outputFile);
 }
 
-void printHeader(FILE* file, List_t* vars) {
+void printHeader(FILE* file, List_t* vars, List_t* funcs, List_t* args) {
     ON_ERROR(!vars, "List is null", )
     ON_ERROR(!file, "File is null", )
 
@@ -21,6 +21,13 @@ void printHeader(FILE* file, List_t* vars) {
     for (int i = 0; i < vars->size; i++) {
         ListElement_t* value = logicToPhysics(vars, i);
         fprintf(file, "%s\n", value->value);
+    }
+
+    fprintf(file, "%ld\n", funcs->size);
+    for (int i = 0; i < funcs->size; i++) {
+        ListElement_t* name = logicToPhysics(funcs, i);
+        ListElement_t* argsVal = logicToPhysics(args, i);
+        fprintf(file, "%s %s\n", name->value, argsVal->value);
     }
 }
 

@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 
         Node_t* con  = makeConnections(node);
         // graphDump(con);
-        printTree("test.o", con, &vars);
+        printTree("test.o", con, &vars, &funcs, &fParams);
         readTreeFile("test.o", "ass.txt");
 
         system("./libraries/Processor/assembler/assembler ass.txt ../../../output.txt");

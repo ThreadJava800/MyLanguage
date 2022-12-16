@@ -2,6 +2,7 @@
 
 int localAreasCount = 0;
 bool isLocal = false;
+int functionId = -1;
 
 Node_t* readLangFile(const char* fileName, List_t* vars, List_t* funcs, List_t* fParams) {
     ON_ERROR(!fileName, "File name was null", nullptr);
@@ -155,7 +156,9 @@ Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars, List_t* funcs, List_t*
         if(!strcmp(command, assCom))   return nodeCtor(OPERATOR, {.opt = ASSIGN_OP}, nullptr, nullptr, prev);
         if(!strcmp(command, outCom))   return nodeCtor(OPERATOR, {.opt = OUT_OP}, nullptr, nullptr, prev);
         if(!strcmp(command, inCom))    return nodeCtor(OPERATOR, {.opt = IN_OP}, nullptr, nullptr, prev);
-        if(!strcmp(command, retCom))   return nodeCtor(RETURN, {}, nullptr, nullptr, prev);
+        if(!strcmp(command, retCom))   {
+            return nodeCtor(RETURN, {.num = functionId}, nullptr, nullptr, prev);
+        }
         if(!strcmp(command, callCom))  return newCall(file, funcs, vars, prev);
         if(!strcmp(command, equCom))   return nodeCtor(OPERATOR, {.opt = EQU_OP}, nullptr, nullptr, prev);
 
@@ -199,6 +202,7 @@ Node_t* newDef(FILE* file, List_t* vars, List_t* funcs, List_t* fParams, Node_t*
     int symbCount = getWord(file, name, nullptr);
     SYNTAX_ERROR(!symbCount, "Need func name after its declaration!");
     listPushBack(funcs, strdup(name));
+    functionId = funcs->size - 1;
 
     char params[MAX_WORD_LENGTH] = "";
     Node_t* defNode = nodeCtor(DEF, {.num = funcs->size - 1}, nullptr, nullptr, prev);

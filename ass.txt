@@ -1,39 +1,260 @@
-PUSH 4
+PUSH 7
 PUSH 1
-MUL
+ADD
 POP rbx
-PUSH 0
-POP [0]
-PUSH 15
-POP [0]
-JMP continue_0x560a74b2e5e0
+JMP continue_0x55826b4b8390
 
 func_0:
-POP [1]
-PUSH [1]
-OUT
-PUSH 0
-POP [2]
+PUSH rbx
+PUSH 5
+PUSH 5
+SUB
+ADD
+POP rbx
 PUSH 7
-POP [2]
-PUSH [2]
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+JMP if_main_0x55826b4b84d0
+
+if_0x55826b4b84d0:
+PUSH 0
+POP rax
+PUSH 7
+PUSH rbx
+SUB
+POP rbx
+RET
+JMP leave_if_0x55826b4b84d0
+
+
+else_0x55826b4b84d0:
+JMP leave_if_0x55826b4b84d0
+
+if_main_0x55826b4b84d0:
+PUSH 0
+PUSH 7
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+JBE if_0x55826b4b84d0
+JMP else_0x55826b4b84d0
+
+leave_if_0x55826b4b84d0:
+JMP if_main_0x55826b4b87d0
+
+if_0x55826b4b87d0:
+PUSH 1
+POP rax
+PUSH 7
+PUSH rbx
+SUB
+POP rbx
+RET
+JMP leave_if_0x55826b4b87d0
+
+
+else_0x55826b4b87d0:
+PUSH 0
+PUSH 6
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 1
+PUSH 7
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+SUB
+PUSH 6
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 0
+PUSH 5
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH rbx
+PUSH 1
+PUSH 1
+SUB
+ADD
+POP rbx
+PUSH 6
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH rbx
+PUSH 7
+ADD
+POP rbx
+CALL func_0
+PUSH rax
+PUSH 5
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 2
+PUSH 7
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+SUB
+PUSH 6
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 0
+PUSH 4
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH rbx
+PUSH 1
+PUSH 1
+SUB
+ADD
+POP rbx
+PUSH 6
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH rbx
+PUSH 7
+ADD
+POP rbx
+CALL func_0
+PUSH rax
+PUSH 4
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 0
+PUSH 3
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 5
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH 4
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+ADD
+PUSH 3
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 3
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+POP rax
+PUSH 7
+PUSH rbx
+SUB
+POP rbx
+RET
+JMP leave_if_0x55826b4b87d0
+
+if_main_0x55826b4b87d0:
+PUSH 7
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH 1
+JE if_0x55826b4b87d0
+JMP else_0x55826b4b87d0
+
+leave_if_0x55826b4b87d0:
+
+
+
+continue_0x55826b4b8390:
+JMP continue_0x55826b4b9590
+
+func_1:
+PUSH 0
+PUSH 2
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+IN
+PUSH 2
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 0
+PUSH 1
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH rbx
+PUSH 1
+PUSH 1
+SUB
+ADD
+POP rbx
+PUSH 2
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH rbx
+PUSH 7
+ADD
+POP rbx
+CALL func_0
+PUSH rax
+PUSH 1
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 1
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
 OUT
 PUSH 0
-POP [rax]
+POP rax
+PUSH 7
+PUSH rbx
+SUB
+POP rbx
 RET
 
 
 
-continue_0x560a74b2e5e0:
-PUSH 0
-POP [3]
-PUSH 16
-POP [3]
-PUSH [3]
-OUT
-PUSH [0]
-PUSH rcx
-PUSH 1957152760
+continue_0x55826b4b9590:
+PUSH rbx
+PUSH 7
 ADD
-POP rcx
-CALL func_0
+POP rbx
+CALL func_1

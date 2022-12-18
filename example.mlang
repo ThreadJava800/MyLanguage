@@ -44,10 +44,10 @@ hh main() {
                 getout 99999999 ;
             } ;
         } else {
-            solveLinear( b c ) ;
+            runmf solveLinear( b c ) ;
         } ;
     } else {
-        solveTwo( a b c ) ;
+        runmf solveTwo( a b c ) ;
     } ;
 
     to_production 0 ;

@@ -1,9 +1,13 @@
 hh fib( n ) {
-    if ( n <= 1 ) {
+    if ( n <= 0 ) {
+        to_production 0 ;
+    } ;
+    if ( n == 1 ) {
         to_production 1 ;
     } else {
         var arg = n - 1 ;
         var prev = runmf fib( arg ) ;
+        
         arg = n - 2 ;
         var prev_prev = runmf fib( arg ) ;
         var ret = prev + prev_prev ;
@@ -16,7 +20,6 @@ hh main() {
     var n = gimme ;
     var res = runmf fib( n ) ;
     getout res ;
-
     to_production 0 ;
 } ;
 

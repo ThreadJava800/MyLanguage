@@ -146,13 +146,13 @@ void readWhile(Node_t* root, Node_t* node, FILE* outputFile);
 
 void readFunc(Node_t* root, Node_t* node, FILE* outputFile);
 
-void parseFuncArgs(Node_t* node, FILE* outputFile, int argCount, int parsedCount);
+void parseFuncArgs(Node_t* root, Node_t* node, FILE* outputFile, int argCount, int parsedCount);
 
 void readCall(Node_t* root, Node_t* node, FILE* outputFile);
 
-void parseCallArgs(Node_t* root, Node_t* node, FILE* outputFile, List_t* list);
+void parseCallArgs(Node_t* root, Node_t* node, FILE* outputFile, List_t* list, int argCount, int parsedCount);
 
-int getFuncArgCnt(Node_t* root);
+int getFuncArgCnt(Node_t* root, NodeType type);
 
 void getNodeByFuncId(Node_t* root, Node_t** cur, int id);
 

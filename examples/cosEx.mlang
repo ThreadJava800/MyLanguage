@@ -1,0 +1,2 @@
+var b = cos 3;
+getout b;

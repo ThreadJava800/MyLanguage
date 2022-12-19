@@ -2,7 +2,7 @@ PUSH 13
 PUSH 1
 ADD
 POP rbx
-JMP continue_0x555c13700df0
+JMP continue_0x563816d86df0
 
 func_0:
 PUSH rbx
@@ -67,8 +67,8 @@ RET
 
 
 
-continue_0x555c13700df0:
-JMP continue_0x555c13701470
+continue_0x563816d86df0:
+JMP continue_0x563816d87470
 
 func_1:
 PUSH rbx
@@ -165,9 +165,9 @@ PUSH rbx
 SUB
 POP rcx
 POP [rcx]
-JMP if_main_0x555c13701db0
+JMP if_main_0x563816d87db0
 
-if_0x555c13701db0:
+if_0x563816d87db0:
 PUSH 0
 PUSH 6
 PUSH rbx
@@ -210,13 +210,13 @@ SUB
 POP rcx
 PUSH [rcx]
 OUT
-JMP leave_if_0x555c13701db0
+JMP leave_if_0x563816d87db0
 
 
-else_0x555c13701db0:
-JMP if_main_0x555c13702470
+else_0x563816d87db0:
+JMP if_main_0x563816d88470
 
-if_0x555c13702470:
+if_0x563816d88470:
 PUSH 0
 POP rax
 PUSH 13
@@ -224,10 +224,10 @@ PUSH rbx
 SUB
 POP rbx
 RET
-JMP leave_if_0x555c13702470
+JMP leave_if_0x563816d88470
 
 
-else_0x555c13702470:
+else_0x563816d88470:
 PUSH 0
 PUSH 5
 PUSH rbx
@@ -344,32 +344,32 @@ SUB
 POP rcx
 PUSH [rcx]
 OUT
-JMP leave_if_0x555c13702470
+JMP leave_if_0x563816d88470
 
-if_main_0x555c13702470:
+if_main_0x563816d88470:
 PUSH 0
 PUSH 7
 PUSH rbx
 SUB
 POP rcx
 PUSH [rcx]
-JB if_0x555c13702470
-JMP else_0x555c13702470
+JB if_0x563816d88470
+JMP else_0x563816d88470
 
-leave_if_0x555c13702470:
-JMP leave_if_0x555c13701db0
+leave_if_0x563816d88470:
+JMP leave_if_0x563816d87db0
 
-if_main_0x555c13701db0:
+if_main_0x563816d87db0:
 PUSH 7
 PUSH rbx
 SUB
 POP rcx
 PUSH [rcx]
 PUSH 0
-JE if_0x555c13701db0
-JMP else_0x555c13701db0
+JE if_0x563816d87db0
+JMP else_0x563816d87db0
 
-leave_if_0x555c13701db0:
+leave_if_0x563816d87db0:
 PUSH 0
 POP rax
 PUSH 13
@@ -380,8 +380,8 @@ RET
 
 
 
-continue_0x555c13701470:
-JMP continue_0x555c137035f0
+continue_0x563816d87470:
+JMP continue_0x563816d895f0
 
 func_2:
 PUSH 0
@@ -420,38 +420,38 @@ PUSH rbx
 SUB
 POP rcx
 POP [rcx]
-JMP if_main_0x555c13703b30
+JMP if_main_0x563816d89b30
 
-if_0x555c13703b30:
-JMP if_main_0x555c13703cb0
+if_0x563816d89b30:
+JMP if_main_0x563816d89cb0
 
-if_0x555c13703cb0:
-JMP if_main_0x555c13703e30
+if_0x563816d89cb0:
+JMP if_main_0x563816d89e30
 
-if_0x555c13703e30:
+if_0x563816d89e30:
 PUSH 99999999
 OUT
-JMP leave_if_0x555c13703e30
+JMP leave_if_0x563816d89e30
 
 
-else_0x555c13703e30:
-JMP leave_if_0x555c13703e30
+else_0x563816d89e30:
+JMP leave_if_0x563816d89e30
 
-if_main_0x555c13703e30:
+if_main_0x563816d89e30:
 PUSH 1
 PUSH rbx
 SUB
 POP rcx
 PUSH [rcx]
 PUSH 0
-JE if_0x555c13703e30
-JMP else_0x555c13703e30
+JE if_0x563816d89e30
+JMP else_0x563816d89e30
 
-leave_if_0x555c13703e30:
-JMP leave_if_0x555c13703cb0
+leave_if_0x563816d89e30:
+JMP leave_if_0x563816d89cb0
 
 
-else_0x555c13703cb0:
+else_0x563816d89cb0:
 PUSH rbx
 PUSH 2
 PUSH 2
@@ -479,23 +479,23 @@ PUSH 13
 ADD
 POP rbx
 CALL func_0
-JMP leave_if_0x555c13703cb0
+JMP leave_if_0x563816d89cb0
 
-if_main_0x555c13703cb0:
+if_main_0x563816d89cb0:
 PUSH 2
 PUSH rbx
 SUB
 POP rcx
 PUSH [rcx]
 PUSH 0
-JE if_0x555c13703cb0
-JMP else_0x555c13703cb0
+JE if_0x563816d89cb0
+JMP else_0x563816d89cb0
 
-leave_if_0x555c13703cb0:
-JMP leave_if_0x555c13703b30
+leave_if_0x563816d89cb0:
+JMP leave_if_0x563816d89b30
 
 
-else_0x555c13703b30:
+else_0x563816d89b30:
 PUSH rbx
 PUSH 3
 PUSH 3
@@ -534,19 +534,19 @@ PUSH 13
 ADD
 POP rbx
 CALL func_1
-JMP leave_if_0x555c13703b30
+JMP leave_if_0x563816d89b30
 
-if_main_0x555c13703b30:
+if_main_0x563816d89b30:
 PUSH 3
 PUSH rbx
 SUB
 POP rcx
 PUSH [rcx]
 PUSH 0
-JE if_0x555c13703b30
-JMP else_0x555c13703b30
+JE if_0x563816d89b30
+JMP else_0x563816d89b30
 
-leave_if_0x555c13703b30:
+leave_if_0x563816d89b30:
 PUSH 0
 POP rax
 PUSH 13
@@ -557,7 +557,7 @@ RET
 
 
 
-continue_0x555c137035f0:
+continue_0x563816d895f0:
 PUSH rbx
 PUSH 13
 ADD

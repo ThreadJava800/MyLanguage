@@ -118,6 +118,7 @@ _deps
 logs.txt
 *.png
 *.dot
+*.txt
 
 mlibs/
 cpu/SFML-2.5.1/

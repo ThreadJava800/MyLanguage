@@ -26,6 +26,8 @@ int main(int argc, char *argv[]) {
         //     printf("%s\n", elem->value);
         // }
 
+        // 12:27 - 12:41
+
         Node_t* con  = makeConnections(node);
         // graphDump(con);
         printTree("test.o", con, &vars, &funcs, &fParams);

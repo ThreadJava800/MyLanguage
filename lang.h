@@ -62,7 +62,7 @@ int getFuncParams(FILE* file, char* buffer, List_t* vars, Node_t** node);
 
 Node_t* newCall(FILE* file, List_t* funcs, List_t* vars, Node_t* prev);
 
-void parseCallArgs(FILE* file, List_t* vars, List_t* funcs, Node_t* prev, Node_t** node);
+void parseCallArgs(FILE* file, List_t* vars, List_t* funcs, Node_t** node);
 
 Node_t* checkVariable(char* varName, List_t* vars, List_t* funcs, Node_t* prev, bool isFunc);
 
@@ -113,6 +113,8 @@ Node_t* getWhile(Node_t** info);
 Node_t* getRet(Node_t** info);
 
 Node_t* getCall(Node_t** info);
+
+Node_t* getCos(Node_t** info);
 
 // TREE BUILDER
 

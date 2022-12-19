@@ -108,3 +108,8 @@ DEF_CMD(JMPMND, 22, {
         jmp(cpu);
     }
 }, 2)
+
+DEF_CMD(COS, 23, {
+    double val = cos(POP);
+    stackPush(&cpu->stack, floor(val * 100), &errorCode);
+}, 0)

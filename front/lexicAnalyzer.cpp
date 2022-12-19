@@ -161,6 +161,7 @@ Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars, List_t* funcs, List_t*
         }
         if(!strcmp(command, callCom))  return newCall(file, funcs, vars, prev);
         if(!strcmp(command, equCom))   return nodeCtor(OPERATOR, {.opt = EQU_OP}, nullptr, nullptr, prev);
+        if(!strcmp(command, cosCom))   return nodeCtor(OPERATOR, {.opt = COS_OP}, nullptr, nullptr, prev);
 
         return checkVariable(strdup(command), vars, funcs, prev, isFunc);
     }
@@ -202,10 +203,10 @@ Node_t* newDef(FILE* file, List_t* vars, List_t* funcs, List_t* fParams, Node_t*
     int symbCount = getWord(file, name, nullptr);
     SYNTAX_ERROR(!symbCount, "Need func name after its declaration!");
     listPushBack(funcs, strdup(name));
-    functionId = funcs->size - 1;
+    functionId = (int) funcs->size - 1;
 
     char params[MAX_WORD_LENGTH] = "";
-    Node_t* defNode = nodeCtor(DEF, {.num = funcs->size - 1}, nullptr, nullptr, prev);
+    Node_t* defNode = nodeCtor(DEF, {.num = (int) funcs->size - 1}, nullptr, nullptr, prev);
     Node_t* paramNode = nodeCtor(OPERATOR, {.opt = O_CIR_BR_OP}, nullptr, nullptr, defNode);
     symbCount = getFuncParams(file, params, vars, &paramNode);
     listPushBack(fParams, strdup(params));
@@ -238,7 +239,7 @@ int getFuncParams(FILE* file, char* buffer, List_t* vars, Node_t** node) {
         int readNums = sprintf(toPush, "%d_", localAreasCount);
         sprintf(&(toPush[readNums]), "%s", paramName);
         listPushBack(vars, strdup(toPush));
-        R(*node) = nodeCtor(VARIABLE, {.num = vars->size - 1}, nullptr, nullptr, *node);
+        R(*node) = nodeCtor(VARIABLE, {.num = (int) vars->size - 1}, nullptr, nullptr, *node);
         *node = R(*node);
 
         args[paramCount] = strdup(paramName);
@@ -265,14 +266,14 @@ Node_t* newCall(FILE* file, List_t* funcs, List_t* vars, Node_t* prev) {
     Node_t* node = checkVariable(strdup(command), funcs, funcs, prev, true);
     R(node) = nodeCtor(OPERATOR, {.num = O_CIR_BR_OP}, nullptr, nullptr, node);
     node = R(node);
-    parseCallArgs(file, vars, funcs, node, &node);
+    parseCallArgs(file, vars, funcs, &node);
     R(node) = nodeCtor(OPERATOR, {.num = C_CIR_BR_OP}, nullptr, nullptr, node);
 
     SYNTAX_ERROR(!isFunc, "Func name are same with var!: %s", command);
     return R(node);
 }
 
-void parseCallArgs(FILE* file, List_t* vars, List_t* funcs, Node_t* prev, Node_t** node) {
+void parseCallArgs(FILE* file, List_t* vars, List_t* funcs, Node_t** node) {
     ON_ERROR(!file, "File is null", );
     ON_ERROR(!node, "Node is null", );
 
@@ -363,7 +364,7 @@ int getWord(FILE* file, char* buffer, bool* isFunc) {
 
     int symbCount = 0;
 
-    while (!isspace(symb) && symb != EOF && symb != '(') {
+    while (!isspace(symb) && symb != EOF && symb != '(' && symb != ')' && symb != ';') {
         SYNTAX_ERROR(!(isalnum(symb) || symb == '_'), "Incorrect var name! %c", symb);
 
         *buffer = (char) symb;

@@ -43,6 +43,7 @@ enum OpType_t {
     AND_OP         =  16,
     ASSIGN_OP      =  17,
     SQRT_OP        =  18,
+    COS_OP         =  19,
     
     OPT_DEFAULT    = -1,
 
@@ -103,9 +104,10 @@ struct Node_t {
 #define IS_VARIABLE(node) (node)->type == VARIABLE
 #define IS_NUM(node) (node)->type == NUMBER
 
+#define IS_COS(node) ((node)->type == OPERATOR) && ((node)->value.opt == COS_OP)
 #define IS_OUT(node) ((node)->type == OPERATOR) && ((node)->value.opt == OUT_OP)
 #define IS_SQRT(node) ((node)->type == OPERATOR) && ((node)->value.opt == SQRT_OP)
-#define IS_IN(node) ((node)->type == OPERATOR) && ((node)->value.opt == IN_OP)
+#define IS_IN(node) (((node)->type == OPERATOR) && ((node)->value.opt == IN_OP))
 #define IS_O_CR_BR(node) ((node)->type == OPERATOR) && ((node)->value.opt == O_CIR_BR_OP)
 #define IS_C_CR_BR(node) ((node)->type == OPERATOR) && ((node)->value.opt == C_CIR_BR_OP)
 #define IS_O_FIG_BR(node) ((node)->type == OPERATOR) && ((node)->value.opt == O_FIG_BR_OP)

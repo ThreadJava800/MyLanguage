@@ -1,56 +1,56 @@
 hh solveLinear( b c ) {
-    var res = -1 * c / b ;
-    getout res ;
+    var res = -1 * c / b;
+    getout res;
     to_production 0 ;
 } ;
 
 hh solveTwo( a b c ) {
-    var d = b * b - 4 * a * c ;
-    d = d * 100 * 100 ;
-    d = koreshok d ;
+    var d = b * b - 4 * a * c;
+    d = d * 100 * 100;
+    d = koreshok d;
     
-    if ( d == 0 ) {
-        var x = -1 * b / 2 ;
-        x = x / a ;
-        getout x ;
+    if (d == 0) {
+        var x = -1 * b / 2;
+        x = x / a;
+        getout x;
     } else {
-        if ( d < 0 ) {
-            to_production 0 ;
+        if (d < 0) {
+            to_production 0;
         } else {
-            var x_one = -1 * b + d ;
-            x_one = x_one / 2 ;
-            x_one = x_one / a ;
+            var x_one = -1 * b + d;
+            x_one = x_one / 2;
+            x_one = x_one / a;
 
-            var x_two = -1 * b - d ;
-            x_two = x_two / 2 ;
-            x_two = x_two / a ;
+            var x_two = -1 * b - d;
+            x_two = x_two / 2;
+            x_two = x_two / a;
             
-            getout x_one ;
-            getout x_two ;
+            getout x_one;
+            getout x_two;
         } ;
     } ;
 
-    to_production 0 ;
+    to_production 0;
 } ;
 
 hh main() {
-    var a = gimme ;
-    var b = gimme ;
-    var c = gimme ;
+    var a = gimme;
+    var b = gimme;
+    var c = gimme;
 
     if ( a == 0 ) {
         if ( b == 0 ) { 
             if ( c == 0 ) {
-                getout 99999999 ;
+                getout 99999999;
             } ;
         } else {
-            runmf solveLinear( b c ) ;
+            runmf solveLinear( b c );
         } ;
     } else {
-        runmf solveTwo( a b c ) ;
+        runmf solveTwo( a b c );
     } ;
 
-    to_production 0 ;
+    to_production 0;
 } ;
 
-runmf main() ;
+runmf main();

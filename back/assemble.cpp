@@ -129,6 +129,9 @@ void readNode(Node_t* root, Node_t* node, FILE* outputFile) {
         case CALL:
             readCall(root, node, outputFile);
             break;
+        case IF2:
+        case ELSE:
+        case NODET_DEFAULT:
         default:
             SYNTAX_ERROR(true, "Unknown type: %d", node->type);
             break;
@@ -195,6 +198,10 @@ void readOperator(Node_t* root, Node_t* node, FILE* outputFile) {
         case OUT_OP:
             readNode(root, L(node), outputFile);
             fprintf(outputFile, "OUT\n");
+            break;
+        case COS_OP:
+            readNode(root, L(node), outputFile);
+            fprintf(outputFile, "COS\n");
             break;
         default:
             break;
@@ -302,7 +309,6 @@ void parseFuncArgs(Node_t* root, Node_t* node, FILE* outputFile, int argCount, i
     ON_ERROR(!outputFile, "File is null", );
 
     if (IS_VARIABLE(node)) {
-        printf("%d\n", argCount);
         fprintf(outputFile, "PUSH rbx\n");
         fprintf(outputFile, "PUSH %d\n", parsedCount);
         fprintf(outputFile, "PUSH %d\n", argCount);
@@ -339,13 +345,12 @@ void readCall(Node_t* root, Node_t* node, FILE* outputFile) {
 
     parseCallArgs(root, node, outputFile, &list, argCnt, argCnt);
 
-    for (int i = list.size - 1; i >= 0; i--) {
+    for (long i = list.size - 1; i >= 0; i--) {
         ListElement_t* elem = logicToPhysics(&list, i);
         fprintf(outputFile, "%s", elem->value);
     }
 
     // move pointer
-    int varCnt = getFuncArgCnt(funcNode, VAR);
     fprintf(outputFile, "PUSH rbx\n");
     fprintf(outputFile, "PUSH %d\n", allArgCnt);
     fprintf(outputFile, "ADD\n");

@@ -1,116 +1,281 @@
-PUSH 7
+PUSH 13
 PUSH 1
 ADD
 POP rbx
-JMP continue_0x55826b4b8390
+JMP continue_0x555c13700df0
 
 func_0:
 PUSH rbx
-PUSH 5
-PUSH 5
+PUSH 3
+PUSH 3
 SUB
 ADD
 POP rbx
-PUSH 7
+PUSH 13
 PUSH rbx
 SUB
 POP rcx
 POP [rcx]
-JMP if_main_0x55826b4b84d0
-
-if_0x55826b4b84d0:
+PUSH rbx
+PUSH 3
+PUSH 3
+SUB
+ADD
+POP rbx
+PUSH 12
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 0
+PUSH 11
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 13
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH 12
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH -1
+MUL
+DIV
+PUSH 11
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 11
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+OUT
 PUSH 0
 POP rax
-PUSH 7
+PUSH 13
 PUSH rbx
 SUB
 POP rbx
 RET
-JMP leave_if_0x55826b4b84d0
 
 
-else_0x55826b4b84d0:
-JMP leave_if_0x55826b4b84d0
 
-if_main_0x55826b4b84d0:
+continue_0x555c13700df0:
+JMP continue_0x555c13701470
+
+func_1:
+PUSH rbx
+PUSH 7
+PUSH 7
+SUB
+ADD
+POP rbx
+PUSH 10
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH rbx
+PUSH 7
+PUSH 7
+SUB
+ADD
+POP rbx
+PUSH 9
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH rbx
+PUSH 7
+PUSH 7
+SUB
+ADD
+POP rbx
+PUSH 8
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
 PUSH 0
 PUSH 7
 PUSH rbx
 SUB
 POP rcx
+POP [rcx]
+PUSH 8
+PUSH rbx
+SUB
+POP rcx
 PUSH [rcx]
-JBE if_0x55826b4b84d0
-JMP else_0x55826b4b84d0
-
-leave_if_0x55826b4b84d0:
-JMP if_main_0x55826b4b87d0
-
-if_0x55826b4b87d0:
-PUSH 1
-POP rax
+PUSH 10
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH 4
+MUL
+MUL
+PUSH 9
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH 9
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+MUL
+SUB
 PUSH 7
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 100
+PUSH 100
+PUSH 7
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+MUL
+MUL
+PUSH 7
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 7
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+SQRT
+PUSH 7
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+JMP if_main_0x555c13701db0
+
+if_0x555c13701db0:
+PUSH 0
+PUSH 6
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 2
+PUSH 9
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH -1
+MUL
+DIV
+PUSH 6
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 10
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH 6
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+DIV
+PUSH 6
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 6
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+OUT
+JMP leave_if_0x555c13701db0
+
+
+else_0x555c13701db0:
+JMP if_main_0x555c13702470
+
+if_0x555c13702470:
+PUSH 0
+POP rax
+PUSH 13
 PUSH rbx
 SUB
 POP rbx
 RET
-JMP leave_if_0x55826b4b87d0
+JMP leave_if_0x555c13702470
 
 
-else_0x55826b4b87d0:
-PUSH 0
-PUSH 6
-PUSH rbx
-SUB
-POP rcx
-POP [rcx]
-PUSH 1
-PUSH 7
-PUSH rbx
-SUB
-POP rcx
-PUSH [rcx]
-SUB
-PUSH 6
-PUSH rbx
-SUB
-POP rcx
-POP [rcx]
+else_0x555c13702470:
 PUSH 0
 PUSH 5
 PUSH rbx
 SUB
 POP rcx
 POP [rcx]
-PUSH rbx
-PUSH 1
-PUSH 1
-SUB
-ADD
-POP rbx
-PUSH 6
+PUSH 9
 PUSH rbx
 SUB
 POP rcx
 PUSH [rcx]
-PUSH rbx
+PUSH -1
+MUL
 PUSH 7
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
 ADD
-POP rbx
-CALL func_0
-PUSH rax
 PUSH 5
 PUSH rbx
 SUB
 POP rcx
 POP [rcx]
 PUSH 2
-PUSH 7
+PUSH 5
 PUSH rbx
 SUB
 POP rcx
 PUSH [rcx]
+DIV
+PUSH 5
+PUSH rbx
 SUB
-PUSH 6
+POP rcx
+POP [rcx]
+PUSH 10
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH 5
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+DIV
+PUSH 5
 PUSH rbx
 SUB
 POP rcx
@@ -121,30 +286,48 @@ PUSH rbx
 SUB
 POP rcx
 POP [rcx]
-PUSH rbx
-PUSH 1
-PUSH 1
-SUB
-ADD
-POP rbx
-PUSH 6
+PUSH 7
 PUSH rbx
 SUB
 POP rcx
 PUSH [rcx]
+PUSH 9
 PUSH rbx
-PUSH 7
-ADD
-POP rbx
-CALL func_0
-PUSH rax
+SUB
+POP rcx
+PUSH [rcx]
+PUSH -1
+MUL
+SUB
 PUSH 4
 PUSH rbx
 SUB
 POP rcx
 POP [rcx]
-PUSH 0
-PUSH 3
+PUSH 2
+PUSH 4
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+DIV
+PUSH 4
+PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+PUSH 10
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH 4
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+DIV
+PUSH 4
 PUSH rbx
 SUB
 POP rcx
@@ -154,48 +337,65 @@ PUSH rbx
 SUB
 POP rcx
 PUSH [rcx]
+OUT
 PUSH 4
 PUSH rbx
 SUB
 POP rcx
 PUSH [rcx]
-ADD
+OUT
+JMP leave_if_0x555c13702470
+
+if_main_0x555c13702470:
+PUSH 0
+PUSH 7
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+JB if_0x555c13702470
+JMP else_0x555c13702470
+
+leave_if_0x555c13702470:
+JMP leave_if_0x555c13701db0
+
+if_main_0x555c13701db0:
+PUSH 7
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH 0
+JE if_0x555c13701db0
+JMP else_0x555c13701db0
+
+leave_if_0x555c13701db0:
+PUSH 0
+POP rax
+PUSH 13
+PUSH rbx
+SUB
+POP rbx
+RET
+
+
+
+continue_0x555c13701470:
+JMP continue_0x555c137035f0
+
+func_2:
+PUSH 0
 PUSH 3
 PUSH rbx
 SUB
 POP rcx
 POP [rcx]
+IN
 PUSH 3
 PUSH rbx
 SUB
 POP rcx
-PUSH [rcx]
-POP rax
-PUSH 7
-PUSH rbx
-SUB
-POP rbx
-RET
-JMP leave_if_0x55826b4b87d0
-
-if_main_0x55826b4b87d0:
-PUSH 7
-PUSH rbx
-SUB
-POP rcx
-PUSH [rcx]
-PUSH 1
-JE if_0x55826b4b87d0
-JMP else_0x55826b4b87d0
-
-leave_if_0x55826b4b87d0:
-
-
-
-continue_0x55826b4b8390:
-JMP continue_0x55826b4b9590
-
-func_1:
+POP [rcx]
 PUSH 0
 PUSH 2
 PUSH rbx
@@ -214,9 +414,58 @@ PUSH rbx
 SUB
 POP rcx
 POP [rcx]
+IN
+PUSH 1
 PUSH rbx
+SUB
+POP rcx
+POP [rcx]
+JMP if_main_0x555c13703b30
+
+if_0x555c13703b30:
+JMP if_main_0x555c13703cb0
+
+if_0x555c13703cb0:
+JMP if_main_0x555c13703e30
+
+if_0x555c13703e30:
+PUSH 99999999
+OUT
+JMP leave_if_0x555c13703e30
+
+
+else_0x555c13703e30:
+JMP leave_if_0x555c13703e30
+
+if_main_0x555c13703e30:
 PUSH 1
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH 0
+JE if_0x555c13703e30
+JMP else_0x555c13703e30
+
+leave_if_0x555c13703e30:
+JMP leave_if_0x555c13703cb0
+
+
+else_0x555c13703cb0:
+PUSH rbx
+PUSH 2
+PUSH 2
+SUB
+ADD
+POP rbx
 PUSH 1
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH rbx
+PUSH 2
+PUSH 2
 SUB
 ADD
 POP rbx
@@ -226,25 +475,81 @@ SUB
 POP rcx
 PUSH [rcx]
 PUSH rbx
-PUSH 7
+PUSH 13
 ADD
 POP rbx
 CALL func_0
-PUSH rax
-PUSH 1
+JMP leave_if_0x555c13703cb0
+
+if_main_0x555c13703cb0:
+PUSH 2
 PUSH rbx
 SUB
 POP rcx
-POP [rcx]
+PUSH [rcx]
+PUSH 0
+JE if_0x555c13703cb0
+JMP else_0x555c13703cb0
+
+leave_if_0x555c13703cb0:
+JMP leave_if_0x555c13703b30
+
+
+else_0x555c13703b30:
+PUSH rbx
+PUSH 3
+PUSH 3
+SUB
+ADD
+POP rbx
 PUSH 1
 PUSH rbx
 SUB
 POP rcx
 PUSH [rcx]
-OUT
+PUSH rbx
+PUSH 3
+PUSH 3
+SUB
+ADD
+POP rbx
+PUSH 2
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH rbx
+PUSH 3
+PUSH 3
+SUB
+ADD
+POP rbx
+PUSH 3
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH rbx
+PUSH 13
+ADD
+POP rbx
+CALL func_1
+JMP leave_if_0x555c13703b30
+
+if_main_0x555c13703b30:
+PUSH 3
+PUSH rbx
+SUB
+POP rcx
+PUSH [rcx]
+PUSH 0
+JE if_0x555c13703b30
+JMP else_0x555c13703b30
+
+leave_if_0x555c13703b30:
 PUSH 0
 POP rax
-PUSH 7
+PUSH 13
 PUSH rbx
 SUB
 POP rbx
@@ -252,9 +557,9 @@ RET
 
 
 
-continue_0x55826b4b9590:
+continue_0x555c137035f0:
 PUSH rbx
-PUSH 7
+PUSH 13
 ADD
 POP rbx
-CALL func_1
+CALL func_2

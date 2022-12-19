@@ -188,6 +188,7 @@ Node_t* getX(Node_t** info) {
         *info = R(*info);
         return nodeCtor(OPERATOR, {.opt = SQRT_OP}, getX(info), nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr), nullptr);
     }
+    if (IS_COS(*info)) return getCos(info);
 
     return nullptr;
 }
@@ -289,4 +290,13 @@ Node_t* getCall(Node_t** info) {
     Node_t* varNode = parseVars(info);
     *info = R(*info);
     return nodeCtor(CALL, {.num = index}, L(varNode), R(varNode), nullptr);
+}
+
+Node_t* getCos(Node_t** info) {
+    ON_ERROR(!info, "Node is null", nullptr);
+
+    Node_t* cosNode = nodeCopy(*info);
+    *info = R(*info);
+    Node_t* fict = nodeCtor(FICTITIOUS, {}, nullptr, nullptr, nullptr);
+    return setOper(getX(info), fict, cosNode);
 }

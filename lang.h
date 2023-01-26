@@ -56,6 +56,8 @@ Node_t* parseWord(FILE* file, Node_t* prev, List_t* vars, List_t* funcs, List_t*
 
 Node_t* newVar(FILE* file, List_t* vars, Node_t* prev);
 
+bool checkIfValid(char* name);
+
 Node_t* newDef(FILE* file, List_t* vars, List_t* funcs, List_t* fParams, Node_t* prev);
 
 int getFuncParams(FILE* file, char* buffer, List_t* vars, Node_t** node);

@@ -1,25 +1,25 @@
-hh fib( n ) {
-    if (n <= 0) {
+hh fib( c ) {
+    if (c <= 0) {
         to_production 0;
     } ;
-    if (n == 1) {
+    if (c == 1) {
         to_production 1;
     } else {
-        var arg = n - 1;
-        var prev = runmf fib( arg );
+        var demidovich = c - 1;
+        var java = runmf fib( demidovich );
         
-        arg = n - 2;
-        var prev_prev = runmf fib( arg );
-        var ret = prev + prev_prev;
+        demidovich = c - 2;
+        var ARIA = runmf fib( demidovich );
+        var po = java + ARIA;
 
-        to_production ret;
+        to_production po;
     } ;
 } ;
 
 hh main() {
-    var n = gimme;
-    var res = runmf fib( n );
-    getout res;
+    var c = gimme;
+    var po = runmf fib( c );
+    getout po;
     to_production 0;
 } ;
 

@@ -17,4 +17,18 @@ const char* const callCom  = "runmf";
 const char* const sqrtCom  = "koreshok";
 const char* const cosCom   = "cos";
 
+const char* const allowedVarNames[] = {
+    "LINUX",
+    "C",
+    "ALKORYTHM",
+    "HLOP_HLOP",
+    "DEMIDOVICH",
+    "JAVA",
+    "DEADLINE",
+    "POLYMORPHYSM",
+    "SOMA_COLA",
+    "PO",
+    "ARIA",
+};
+
 #endif

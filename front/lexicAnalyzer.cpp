@@ -177,7 +177,11 @@ Node_t* newVar(FILE* file, List_t* vars, Node_t* prev) {
 
     char command[MAX_WORD_LENGTH] = "";
     int symbCount = getWord(file, command, nullptr);
+
     SYNTAX_ERROR(!symbCount, "Need variable name after var declaration!");
+    printf("%s\n", command);
+    SYNTAX_ERROR(!checkIfValid(command), "Incorrect variable name!")
+
     char* varCpy = strdup(command);
     if (isLocal) {
         int moves = 0;
@@ -191,6 +195,18 @@ Node_t* newVar(FILE* file, List_t* vars, Node_t* prev) {
     PREV(rightNode) = returnNode;
     
     return rightNode;
+}
+
+bool checkIfValid(char* name) {
+    ON_ERROR(!name, "Buffer is null", false);
+
+    for (int i = 0; i < sizeof(allowedVarNames) / sizeof(allowedVarNames[0]); i++) {
+        if (!strcasecmp(allowedVarNames[i], name)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 Node_t* newDef(FILE* file, List_t* vars, List_t* funcs, List_t* fParams, Node_t* prev) {

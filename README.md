@@ -47,4 +47,4 @@ hh func( a b c ) {
 } ;
 ```
 # Conclusion
-It is a turing-complete language (it is able to calculate Fibonacci numbers using this language).
+It is a turing-complete language (it is able to calculate [Fibonacci numbers](https://github.com/ThreadJava800/MyLanguage/blob/main/examples/test.mlang) using this language).

@@ -44,11 +44,24 @@ Node_t* parseFile(FILE* file, List_t* vars, List_t* funcs, List_t* fParams) {
     return curNode;
 }
 
+void skipUnnededWords(FILE* file) {
+    ON_ERROR(!file, "File is null",);
+
+    int symb = fgetc(file);
+    fprintf(stderr, "%d\n", symb);
+    while(symb != '\n' && symb != EOF) {
+        symb = fgetc(file);
+    }
+
+    if (symb == '\n') fgetc(file);
+}
+
 Node_t* parseOper(FILE* file, Node_t* prev) {
     ON_ERROR(!file, "File is null", nullptr);
 
     char oper[MAX_OPER_LENGTH] = "";
     int symbCount = getOper(file, oper);
+
     if (symbCount) {
         if (!strcmp(oper, "+"))  return nodeCtor(OPERATOR, {.opt = ADD_OP}, nullptr, nullptr, prev);
         if (!strcmp(oper, "-"))  return nodeCtor(OPERATOR, {.opt = SUB_OP}, nullptr, nullptr, prev);
@@ -78,7 +91,10 @@ Node_t* parseOper(FILE* file, Node_t* prev) {
             isLocal = false;
             return nodeCtor(OPERATOR, {.opt = C_FIG_BR_OP}, nullptr, nullptr, prev);
         }
-        if (!strcmp(oper, ";"))  return nodeCtor(OPERATOR, {.opt = END_LINE_OP}, nullptr, nullptr, prev);
+        if (!strcmp(oper, ";"))  {
+            skipUnnededWords(file);
+            return nodeCtor(OPERATOR, {.opt = END_LINE_OP}, nullptr, nullptr, prev);
+        }
     }
 
     return prev;
@@ -179,8 +195,8 @@ Node_t* newVar(FILE* file, List_t* vars, Node_t* prev) {
     int symbCount = getWord(file, command, nullptr);
 
     SYNTAX_ERROR(!symbCount, "Need variable name after var declaration!");
-    printf("%s\n", command);
-    SYNTAX_ERROR(!checkIfValid(command), "Incorrect variable name!")
+    // printf("%s\n", command);
+    SYNTAX_ERROR(!checkIfValid(command), "Incorrect variable name (%s)!", command);
 
     char* varCpy = strdup(command);
     if (isLocal) {
@@ -200,13 +216,13 @@ Node_t* newVar(FILE* file, List_t* vars, Node_t* prev) {
 bool checkIfValid(char* name) {
     ON_ERROR(!name, "Buffer is null", false);
 
-    for (int i = 0; i < sizeof(allowedVarNames) / sizeof(allowedVarNames[0]); i++) {
-        if (!strcasecmp(allowedVarNames[i], name)) {
-            return true;
-        }
-    }
+    // for (size_t i = 0; i < sizeof(allowedVarNames) / sizeof(allowedVarNames[0]); i++) {
+    //     if (!strcasecmp(allowedVarNames[i], name)) {
+    //         return true;
+    //     }
+    // }
 
-    return false;
+    return true;
 }
 
 Node_t* newDef(FILE* file, List_t* vars, List_t* funcs, List_t* fParams, Node_t* prev) {
@@ -390,6 +406,7 @@ int getWord(FILE* file, char* buffer, bool* isFunc) {
         symb = fgetc(file);
     }
     ungetc(symb, file);
+
     SKIP_SPACES();
     if (isFunc) *isFunc = (symb == '(' || symb == ')');
 

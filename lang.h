@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <ctype.h>
+#include <wchar.h>
+#include <locale.h>
 
 #include "libraries/tree/tree.h"
 #include "libraries/LinkedList/list.h"
@@ -12,7 +14,7 @@
 
 const int MAX_WORD_LENGTH = 4096;
 const int MAX_ARG_COUNT = 128;
-const int MAX_OPER_LENGTH = 4;
+const int MAX_OPER_LENGTH = 16;
 
 #define ON_ERROR(expr, errStr, retVal) {                 \
     if (expr) {                                           \
@@ -43,6 +45,8 @@ const int MAX_OPER_LENGTH = 4;
 Node_t* readLangFile(const char* fileName, List_t* vars, List_t* funcs, List_t* fParams);
 
 Node_t* parseFile(FILE* file, List_t* vars, List_t* funcs, List_t* fParams);
+
+void skipUnnededWords(FILE* file);
 
 Node_t* parseOper(FILE* file, Node_t* prev);
 

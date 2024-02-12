@@ -1,6 +1,8 @@
 #include "lang.h"
 
 int main(int argc, char *argv[]) {
+    setlocale(LC_CTYPE, "");
+
     if (argc == 2) {
         List_t vars = {}, funcs = {}, fParams = {};
         _listCtor(&vars);
